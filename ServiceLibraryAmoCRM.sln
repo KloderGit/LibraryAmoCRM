@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAmoCRM", "LibraryAmoCRM.csproj", "{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57E21C64-040B-40CF-9A8C-F29682749085}
+	EndGlobalSection
+EndGlobal
