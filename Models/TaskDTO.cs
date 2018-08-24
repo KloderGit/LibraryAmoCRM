@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Infarstructure;
-using ServiceLibraryAmoCRM.Infarstructure.JsonConverters;
+using LibraryAmoCRM.Infarstructure;
+using LibraryAmoCRM.Infarstructure.JsonConverters;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Models
+namespace LibraryAmoCRM.Models
 {
     public class TaskDTO : BasicServiceEntity
     {

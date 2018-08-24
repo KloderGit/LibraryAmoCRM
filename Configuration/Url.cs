@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Configuration
+namespace LibraryAmoCRM.Configuration
 {
     internal class Url
     {
@@ -21,6 +21,9 @@ namespace ServiceLibraryAmoCRM.Configuration
 
         public Uri Task { get => new Uri(_baseUrl, "api/v2/tasks"); }
         public Uri NotesTask { get => new Uri(_baseUrl, "api/v2/notes?type=task"); }
+
+        public Uri Catalog { get => new Uri(_baseUrl, "api/v2/catalog_elements"); }
+
 
         public Url(string account)
         {

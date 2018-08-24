@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Models
+namespace LibraryAmoCRM.Models
 {
     public class HAL<T>
     {

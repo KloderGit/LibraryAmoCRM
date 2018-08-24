@@ -1,22 +1,22 @@
-﻿using ServiceLibraryAmoCRM.Infarstructure;
-using ServiceLibraryAmoCRM.Infarstructure.Exceptions;
-using ServiceLibraryAmoCRM.Interfaces;
-using ServiceLibraryAmoCRM.Models;
+﻿using LibraryAmoCRM.Infarstructure;
+using LibraryAmoCRM.Infarstructure.Exceptions;
+using LibraryAmoCRM.Interfaces;
+using LibraryAmoCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ServiceLibraryAmoCRM.Implements
+namespace LibraryAmoCRM.Implements
 {
-    public class CommonRepository<T>: IAcceptParams where T : CoreDTO
+    public class CommonRepository<T>: IAcceptParams, ICommonRepository<T> where T : CoreDTO
     {
         HttpClient client;
 
         public List<KeyValuePair<string, string>> QueryParameters { get; set; }
 
-        public Func<Task<IEnumerable<T>>> Execute;
+        public Func<Task<IEnumerable<T>>> Execute { get; set; }
 
         public CommonRepository(HttpClient client)
         {
@@ -30,6 +30,37 @@ namespace ServiceLibraryAmoCRM.Implements
         {
             Execute = GetItemsMetod;
             return this;
+        }
+
+        public async Task<T> Add(T item)
+        {
+            T result = null;
+
+            var updatedObject = item;
+            updatedObject.UpdatedAt = DateTime.Now;
+
+            var obj = new
+            {
+                add = new[] {
+                    updatedObject
+                }
+            };
+
+            try
+            {
+                var request = client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter()).Result;
+                request.EnsureSuccessStatusCode();
+
+                var response = await request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter());
+
+                result = response._embedded.items.FirstOrDefault();
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return result;
         }
 
         protected async Task<IEnumerable<T>> GetItemsMetod()
@@ -52,7 +83,7 @@ namespace ServiceLibraryAmoCRM.Implements
 
         public void Update(T item) {
 
-            var updatedObject = (T)item;
+            var updatedObject = item;
             updatedObject.UpdatedAt = DateTime.Now;
 
             var obj = new
@@ -79,7 +110,6 @@ namespace ServiceLibraryAmoCRM.Implements
                 Console.WriteLine(ex.Message);
             }
         }
-
 
         protected string BuildQueryParams()
         {

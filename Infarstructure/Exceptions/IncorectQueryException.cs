@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Infarstructure.Exceptions
+namespace LibraryAmoCRM.Infarstructure.Exceptions
 {
     public class IncorectQueryException : Exception
     {

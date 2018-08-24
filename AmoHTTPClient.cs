@@ -1,17 +1,17 @@
-﻿using ServiceLibraryAmoCRM.Configuration;
+﻿using LibraryAmoCRM.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace ServiceLibraryAmoCRM
+namespace LibraryAmoCRM
 {
     internal class AmoHTTPClient
     {
-        Config config;
+        AssemblyConfig config;
         HttpClientHandler handler = new HttpClientHandler();
 
-        public AmoHTTPClient(Config config)
+        public AmoHTTPClient(AssemblyConfig config)
         {
             this.config = config;
 

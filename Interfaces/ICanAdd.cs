@@ -4,8 +4,8 @@ using System.Text;
 
 namespace LibraryAmoCRM.Interfaces
 {
-    internal interface IHaveIdArray
+    public interface ICanAdd <T> where T: class
     {
-        IEnumerable<int> IDs { get; set; }
+        IEnumerable<T> Add(T item);
     }
 }

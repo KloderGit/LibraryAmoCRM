@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Interfaces;
+using LibraryAmoCRM.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace ServiceLibraryAmoCRM.Infarstructure.JsonConverters
+namespace LibraryAmoCRM.Infarstructure.JsonConverters
 {
     internal class SingleOrArrayToValueConverter<T> : JsonConverter where T: IHaveIdSingle
     {

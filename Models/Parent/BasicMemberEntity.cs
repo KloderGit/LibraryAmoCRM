@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Infarstructure.JsonConverters;
+using LibraryAmoCRM.Infarstructure.JsonConverters;
 using System;
 using System.Collections.Generic;
 
-namespace ServiceLibraryAmoCRM.Models
+namespace LibraryAmoCRM.Models
 {
     public abstract class BasicMemberEntity : CoreDTO
     {

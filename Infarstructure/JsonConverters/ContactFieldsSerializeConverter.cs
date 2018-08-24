@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ServiceLibraryAmoCRM.Models;
+using LibraryAmoCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Infarstructure.JsonConverters
+namespace LibraryAmoCRM.Infarstructure.JsonConverters
 {
     internal class ContactFieldsSerializeConverter<T> : JsonConverter where T : ContactsField
     {

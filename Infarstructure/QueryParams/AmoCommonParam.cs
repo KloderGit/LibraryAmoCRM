@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ServiceLibraryAmoCRM.Infarstructure.QueryParams
+namespace LibraryAmoCRM.Infarstructure.QueryParams
 {
     public class Param
     {
@@ -56,4 +56,7 @@ namespace ServiceLibraryAmoCRM.Infarstructure.QueryParams
             }
         }
     }
+
+
+
 }

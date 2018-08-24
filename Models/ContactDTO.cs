@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Infarstructure.Event;
-using ServiceLibraryAmoCRM.Infarstructure.JsonConverters;
+using LibraryAmoCRM.Infarstructure.Event;
+using LibraryAmoCRM.Infarstructure.JsonConverters;
 using System;
 
-namespace ServiceLibraryAmoCRM.Models
+namespace LibraryAmoCRM.Models
 {
     public class ContactDTO : BasicMemberEntity
     {

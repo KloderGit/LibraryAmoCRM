@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Models
+namespace LibraryAmoCRM.Models
 {
     public abstract class BasicServiceEntity : CoreDTO
     {

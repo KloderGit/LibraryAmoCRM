@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Models;
+using LibraryAmoCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Infarstructure.JsonConverters
+namespace LibraryAmoCRM.Infarstructure.JsonConverters
 {
     internal class CompanyFieldSrializeConverter<T> : JsonConverter where T : CompanyField
     {
@@ -17,7 +17,7 @@ namespace ServiceLibraryAmoCRM.Infarstructure.JsonConverters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            object result = new Object();
+            object result = new object();
 
                 T instance = (T)serializer.Deserialize(reader, typeof(T));
 

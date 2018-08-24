@@ -4,7 +4,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Infarstructure
+namespace LibraryAmoCRM.Infarstructure
 {
     internal class HalJsonFormatter : JsonMediaTypeFormatter
     {

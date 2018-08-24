@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Infarstructure.JsonConverters;
+using LibraryAmoCRM.Infarstructure.JsonConverters;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Formatting;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Infarstructure
+namespace LibraryAmoCRM.Infarstructure
 {
     internal class MediaTypesFormatters
     {

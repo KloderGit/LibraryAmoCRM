@@ -1,9 +1,9 @@
-﻿using ServiceLibraryAmoCRM.Interfaces;
+﻿using LibraryAmoCRM.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Models.Fields
+namespace LibraryAmoCRM.Models.Fields
 {
     public class PipelineField : IHaveIdSingle
     {

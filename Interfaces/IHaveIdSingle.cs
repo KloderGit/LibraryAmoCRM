@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Interfaces
+namespace LibraryAmoCRM.Interfaces
 {
     internal interface IHaveIdSingle
     {

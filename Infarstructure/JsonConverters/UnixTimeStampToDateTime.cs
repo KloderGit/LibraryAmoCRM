@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Infarstructure.JsonConverters
+namespace LibraryAmoCRM.Infarstructure.JsonConverters
 {
     internal class UnixTimeStampToDateTime : JsonConverter
     {

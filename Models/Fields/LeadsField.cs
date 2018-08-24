@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Interfaces;
+using LibraryAmoCRM.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Models
+namespace LibraryAmoCRM.Models
 {
     public class LeadsField : IHaveIdArray
     {

@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Infarstructure.JsonConverters;
-using ServiceLibraryAmoCRM.Interfaces;
+using LibraryAmoCRM.Infarstructure.JsonConverters;
+using LibraryAmoCRM.Interfaces;
 using System;
 
-namespace ServiceLibraryAmoCRM.Models
+namespace LibraryAmoCRM.Models
 {
     public abstract class CoreDTO : IHaveIdSingle
     {

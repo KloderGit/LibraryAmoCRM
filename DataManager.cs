@@ -1,16 +1,18 @@
-﻿using ServiceLibraryAmoCRM.Configuration;
-using ServiceLibraryAmoCRM.Models;
+﻿using LibraryAmoCRM.Configuration;
+using LibraryAmoCRM.Implements;
+using LibraryAmoCRM.Models;
+using System.Reflection;
 
-namespace ServiceLibraryAmoCRM.Implements
+namespace LibraryAmoCRM
 {
     public class DataManager
     {
-        Config config;
+        AssemblyConfig config;
         AmoHTTPClient httpConfig;
 
         public DataManager(string account, string user, string hash)
         {
-            config = new Config(account, user, hash);
+            config = new AssemblyConfig(account, user, hash);
             httpConfig = new AmoHTTPClient(config);
             httpConfig.Auth();
         }
@@ -20,10 +22,14 @@ namespace ServiceLibraryAmoCRM.Implements
         CommonRepository<CompanyDTO> _companies;
         CommonRepository<TaskDTO> _tasks;
 
+        CommonRepository<CatalogDTO> _catalogs;
+
         CommonRepository<NoteDTO> _notesLead;
         CommonRepository<NoteDTO> _notesContact;
         CommonRepository<NoteDTO> _notesCompany;
         CommonRepository<NoteDTO> _notesTask;
+
+        //CatalogRepository _catalogs;
 
         public CommonRepository<LeadDTO> Leads => _leads ?? (_leads = new CommonRepository<LeadDTO>( httpConfig.GetClient( config.Url.Lead ) ));
         public CommonRepository<NoteDTO> NotesLead => _notesLead ?? (_notesLead = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesLead)));
@@ -37,5 +43,28 @@ namespace ServiceLibraryAmoCRM.Implements
         public CommonRepository<TaskDTO> Tasks => _tasks ?? (_tasks = new CommonRepository<TaskDTO>(httpConfig.GetClient(config.Url.Task)));
         public CommonRepository<NoteDTO> NotesTask => _notesTask ?? (_notesTask = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesTask)));
 
+
+        public CommonRepository<CatalogDTO> Catalogs => _catalogs ?? (_catalogs = new CommonRepository<CatalogDTO>(httpConfig.GetClient(config.Url.Catalog)));
+
+
+        //public CatalogRepository Catalogs => _catalogs ?? (_catalogs = new CatalogRepository(httpConfig.GetClient(config.Url.Task)));
+
+
+        public CommonRepository<T> Repository<T>() where T : CoreDTO
+        {
+            var properties = typeof(DataManager).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            CommonRepository<T> result = null;
+
+            foreach (var property in properties)
+            {
+                if (property.PropertyType == typeof(CommonRepository<T>))
+                {
+                    result = property.GetValue(this) as CommonRepository<T>;
+                }
+            }
+
+            return result;
+        }
     }
 }

@@ -1,9 +1,9 @@
-﻿using ServiceLibraryAmoCRM.Models;
+﻿using LibraryAmoCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Infarstructure.Event
+namespace LibraryAmoCRM.Infarstructure.Event
 {
     internal class RelativeEventArgs : EventArgs
     {

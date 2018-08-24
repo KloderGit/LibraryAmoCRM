@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-using ServiceLibraryAmoCRM.Models;
+using LibraryAmoCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ServiceLibraryAmoCRM.Infarstructure.JsonConverters
+namespace LibraryAmoCRM.Infarstructure.JsonConverters
 {
     internal class TagFieldSerializeConverter: JsonConverter
     {
