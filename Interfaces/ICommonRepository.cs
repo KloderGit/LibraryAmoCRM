@@ -12,6 +12,6 @@ namespace LibraryAmoCRM.Interfaces
         CommonRepository<T> Get();
         Func<Task<IEnumerable<T>>> Execute { get; set; }
         Task<T> Add(T item);
-        void Update(T item);
+        Task Update(T item);
     }
 }

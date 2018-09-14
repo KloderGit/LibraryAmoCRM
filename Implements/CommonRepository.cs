@@ -81,7 +81,7 @@ namespace LibraryAmoCRM.Implements
             }
         }
 
-        public void Update(T item) {
+        public async Task Update(T item) {
 
             var updatedObject = item;
             updatedObject.UpdatedAt = DateTime.Now;
@@ -100,7 +100,7 @@ namespace LibraryAmoCRM.Implements
 
             try
             {
-                var request = client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter() ).Result;
+                var request = await client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter() );
                 request.EnsureSuccessStatusCode();
 
                 var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );

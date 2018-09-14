@@ -59,4 +59,34 @@ namespace LibraryAmoCRM.Configuration
         SMS_IN = 102,
         SMS_OUT = 103
     }
+
+    public enum PhoneTypeEnum
+    {
+        NotSet = 0,
+        MOB = 114611,
+        WORK = 114607,
+        OTHER = 114617,
+        WORKDD = 114609,
+        HOME = 114615,
+        FAX = 114613
+    }
+
+    public enum EmailTypeEnum
+    {
+        NotSet = 0,
+        PRIV = 114621,
+        WORK = 114619,
+        OTHER = 114623
+    }
+
+    public enum MessengerTypeEnum
+    {
+        NotSet = 0,
+        SKYPE = 114625,
+        ICQ = 114627,
+        JABBER = 114629,
+        GTALK = 114631,
+        MSN = 114633,
+        OTHER = 114635
+    }
 }

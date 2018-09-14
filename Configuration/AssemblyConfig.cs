@@ -22,10 +22,8 @@ namespace LibraryAmoCRM.Configuration
 
     }
 
-    public enum Catalogs {
+    public enum Catalogs
+    {
         Programs = 2173
     }
-
-    public enum 
-
 }
