@@ -1,6 +1,7 @@
 ﻿using LibraryAmoCRM.Configuration;
 using LibraryAmoCRM.Implements;
 using LibraryAmoCRM.Models;
+using LibraryAmoCRM.Models.SysModels;
 using System.Reflection;
 
 namespace LibraryAmoCRM
@@ -21,6 +22,8 @@ namespace LibraryAmoCRM
         CommonRepository<ContactDTO> _contacts;
         CommonRepository<CompanyDTO> _companies;
         CommonRepository<TaskDTO> _tasks;
+
+        FieldsRepository _fields;
 
         CommonRepository<CatalogDTO> _catalogs;
 
@@ -45,6 +48,9 @@ namespace LibraryAmoCRM
 
 
         public CommonRepository<CatalogDTO> Catalogs => _catalogs ?? (_catalogs = new CommonRepository<CatalogDTO>(httpConfig.GetClient(config.Url.Catalog)));
+
+
+        public FieldsRepository Fields => _fields ?? (_fields = new FieldsRepository(httpConfig.GetClient(config.Url.Fields)));
 
 
         //public CatalogRepository Catalogs => _catalogs ?? (_catalogs = new CatalogRepository(httpConfig.GetClient(config.Url.Task)));

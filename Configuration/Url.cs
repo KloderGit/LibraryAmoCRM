@@ -24,6 +24,7 @@ namespace LibraryAmoCRM.Configuration
 
         public Uri Catalog { get => new Uri(_baseUrl, "api/v2/catalog_elements"); }
 
+        public Uri Fields { get => new Uri(_baseUrl, "api/v2/account"); }
 
         public Url(string account)
         {
