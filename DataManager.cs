@@ -11,11 +11,15 @@ namespace LibraryAmoCRM
         AssemblyConfig config;
         AmoHTTPClient httpConfig;
 
+        public Account Account { get; set; }
+
         public DataManager(string account, string user, string hash)
         {
             config = new AssemblyConfig(account, user, hash);
             httpConfig = new AmoHTTPClient(config);
             httpConfig.Auth();
+
+            Account = Fields.GetAccount().Result;
         }
 
         CommonRepository<LeadDTO> _leads;

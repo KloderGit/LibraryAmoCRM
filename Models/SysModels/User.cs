@@ -33,8 +33,5 @@ namespace LibraryAmoCRM.Models.SysModels
 
         [JsonProperty(PropertyName = "is_admin")]
         public bool isAdmin { get; set; }
-
-        [JsonProperty(PropertyName = "rights")]
-        public IEnumerable<UserRights> Rights { get; set; }
     }
 }

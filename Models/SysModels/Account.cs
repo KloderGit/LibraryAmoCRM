@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LibraryAmoCRM.Models.SysModels
 {
-    public class Account : 
+    public class Account : HALSelf
     {
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
@@ -33,5 +33,8 @@ namespace LibraryAmoCRM.Models.SysModels
 
         [JsonProperty(PropertyName = "current_user")]
         public int CurrentUser { get; set; }
+
+        [JsonProperty("_embedded")]
+        public AccountEmbedded Embedded { get; set; }
     }
 }

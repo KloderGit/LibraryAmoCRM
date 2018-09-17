@@ -20,7 +20,7 @@ namespace LibraryAmoCRM.Implements
         {
             try
             {
-                var request = await client.GetAsync("");
+                var request = await client.GetAsync("?with=custom_fields,users,messenger,notifications,pipelines,groups,note_types,task_types");
                 request.EnsureSuccessStatusCode();
 
                 var response = request.Content.ReadAsAsync<Account>(new MediaTypesFormatters().GetHALFormatter());

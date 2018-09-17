@@ -14,7 +14,7 @@ namespace LibraryAmoCRM.Models.SysModels
         public string Name { get; set; }
 
         [JsonProperty(PropertyName = "sort")]
-        public string Sort { get; set; }
+        public int Sort { get; set; }
 
         [JsonProperty(PropertyName = "color")]
         public string Color { get; set; }

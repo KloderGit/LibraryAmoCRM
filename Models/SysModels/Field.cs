@@ -37,7 +37,7 @@ namespace LibraryAmoCRM.Models.SysModels
         [JsonProperty(PropertyName = "is_visible")]
         public bool isVisible { get; set; }
 
-        [JsonProperty(PropertyName = "enums")]
+        [JsonProperty("enums", NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<int, string> Enums { get; set; }
     }
 }

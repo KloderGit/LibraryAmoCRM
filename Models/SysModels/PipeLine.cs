@@ -19,7 +19,7 @@ namespace LibraryAmoCRM.Models.SysModels
         [JsonProperty(PropertyName = "is_main")]
         public bool isMain { get; set; }
 
-        [JsonProperty(PropertyName = "statuses")]
-        public IEnumerable<Status> Statuses { get; set; }
+        [JsonProperty("statuses")]
+        public Dictionary<string, Status> Statuses { get; set; }
     }
 }
