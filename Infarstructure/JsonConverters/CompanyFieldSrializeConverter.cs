@@ -21,7 +21,7 @@ namespace LibraryAmoCRM.Infarstructure.JsonConverters
 
                 T instance = (T)serializer.Deserialize(reader, typeof(T));
 
-                if (instance.Id == 0)
+                if (instance.Id == null || instance.Id == 0)
                 {
                     result = null;
                 }
