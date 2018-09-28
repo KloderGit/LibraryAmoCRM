@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 
 namespace LibraryAmoCRM
 {
@@ -28,7 +29,8 @@ namespace LibraryAmoCRM
             return client;
         }
 
-        public void Auth() {
+        public void Auth(Object obj) // Object нужен только для соответствия сигнатуре делегата TimerCallback, и не используется.
+        {  
             var requestParams = new Dictionary<string, string>
                     {
                         { "USER_LOGIN", config.User},

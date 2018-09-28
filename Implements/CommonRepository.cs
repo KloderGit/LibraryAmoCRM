@@ -1,11 +1,15 @@
-﻿using LibraryAmoCRM.Infarstructure;
+﻿using LibraryAmoCRM.Configuration;
+using LibraryAmoCRM.Infarstructure;
 using LibraryAmoCRM.Infarstructure.Exceptions;
 using LibraryAmoCRM.Interfaces;
 using LibraryAmoCRM.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LibraryAmoCRM.Implements
@@ -18,10 +22,22 @@ namespace LibraryAmoCRM.Implements
 
         public Func<Task<IEnumerable<T>>> Execute { get; set; }
 
+        private QueryPerSecond lastQuery = new QueryPerSecond();
+
+        private ILogger logger;
+
         public CommonRepository(HttpClient client)
         {
             this.client = client;
             QueryParameters = new List<KeyValuePair<string, string>>();
+        }
+
+        public CommonRepository(HttpClient client, QueryPerSecond lastQueryTime, ILogger logger)
+        {
+            this.client = client;
+            QueryParameters = new List<KeyValuePair<string, string>>();
+            lastQuery = lastQueryTime;
+            this.logger = logger;
         }
 
         ~CommonRepository(){ client.Dispose(); }
@@ -48,6 +64,8 @@ namespace LibraryAmoCRM.Implements
 
             try
             {
+                lastQuery.NeedWait();
+
                 var request = client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter()).Result;
                 request.EnsureSuccessStatusCode();
 
@@ -57,7 +75,11 @@ namespace LibraryAmoCRM.Implements
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Warning(ex, "HTTP Ошибка при добавлении записи {Type}", typeof(T));
+            }
+            catch (Exception ex)
+            {
+                logger.Warning(ex, "Ошибка при добавлении записи {Type}", typeof(T));
             }
 
             return result;
@@ -67,6 +89,8 @@ namespace LibraryAmoCRM.Implements
         {
             try
             {
+                lastQuery.NeedWait();
+
                 var request = await client.GetAsync(BuildQueryParams());
                 request.EnsureSuccessStatusCode();
 
@@ -76,7 +100,12 @@ namespace LibraryAmoCRM.Implements
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Warning(ex, "HTTP Ошибка при чтении записи {Type}", typeof(T));
+                return null;
+            }
+            catch (Exception ex)
+            {
+                logger.Warning(ex, "Ошибка при чтении записи {Type}", typeof(T));
                 return null;
             }
         }
@@ -98,16 +127,27 @@ namespace LibraryAmoCRM.Implements
                 throw new IncorectQueryException("Не указан ID");
             }
 
+
+            HttpResponseMessage request = null;
             try
             {
-                var request = await client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter() );
+                lastQuery.NeedWait();
+
+                request = await client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter() );
                 request.EnsureSuccessStatusCode();
 
                 var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
+                var ddd = await request.Content.ReadAsStringAsync();
+
+                logger.Warning("Ответ AmoCRM {http}", ddd);
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Warning(ex, "HTTP Ошибка при обновлении записи {Type}, {@Eequest}", typeof(T), request);
+            }
+            catch (Exception ex)
+            {
+                logger.Warning(ex, "Ошибка при обновлении записи {Type}", typeof(T));
             }
         }
 

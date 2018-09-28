@@ -2,7 +2,10 @@
 using LibraryAmoCRM.Implements;
 using LibraryAmoCRM.Models;
 using LibraryAmoCRM.Models.SysModels;
+using Serilog;
+using System;
 using System.Reflection;
+using System.Threading;
 
 namespace LibraryAmoCRM
 {
@@ -11,15 +14,30 @@ namespace LibraryAmoCRM
         AssemblyConfig config;
         AmoHTTPClient httpConfig;
 
+        QueryPerSecond lastQueryTime = new QueryPerSecond();
+
         public Account Account { get; set; }
+
+        ILogger logger;
 
         public DataManager(string account, string user, string hash)
         {
             config = new AssemblyConfig(account, user, hash);
             httpConfig = new AmoHTTPClient(config);
-            httpConfig.Auth();
+
+            this.logger = new LoggerConfiguration()
+                    .WriteTo.Seq("http://logs.fitness-pro.ru:5341")
+                    .CreateLogger();
+
+            httpConfig.Auth(null);
+
+
+            TimerCallback tm = new TimerCallback(httpConfig.Auth);
+            Timer keepConnection = new Timer(tm, null, 780000, 780000);
 
             Account = Fields.GetAccount().Result;
+
+            logger.Information("AmoCRM Datamanager Start");
         }
 
         CommonRepository<LeadDTO> _leads;
@@ -38,20 +56,20 @@ namespace LibraryAmoCRM
 
         //CatalogRepository _catalogs;
 
-        public CommonRepository<LeadDTO> Leads => _leads ?? (_leads = new CommonRepository<LeadDTO>( httpConfig.GetClient( config.Url.Lead ) ));
-        public CommonRepository<NoteDTO> NotesLead => _notesLead ?? (_notesLead = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesLead)));
+        public CommonRepository<LeadDTO> Leads => _leads ?? (_leads = new CommonRepository<LeadDTO>( httpConfig.GetClient( config.Url.Lead ), lastQueryTime, logger));
+        public CommonRepository<NoteDTO> NotesLead => _notesLead ?? (_notesLead = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesLead), lastQueryTime, logger));
 
-        public CommonRepository<ContactDTO> Contacts => _contacts ?? (_contacts = new CommonRepository<ContactDTO>(httpConfig.GetClient(config.Url.Contact)));
-        public CommonRepository<NoteDTO> NotesContact => _notesContact ?? (_notesContact = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesContact)));
+        public CommonRepository<ContactDTO> Contacts => _contacts ?? (_contacts = new CommonRepository<ContactDTO>(httpConfig.GetClient(config.Url.Contact), lastQueryTime, logger));
+        public CommonRepository<NoteDTO> NotesContact => _notesContact ?? (_notesContact = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesContact), lastQueryTime, logger));
 
-        public CommonRepository<CompanyDTO> Companies => _companies ?? (_companies = new CommonRepository<CompanyDTO>(httpConfig.GetClient(config.Url.Company)));
-        public CommonRepository<NoteDTO> NotesCompany => _notesCompany ?? (_notesCompany = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesCompany)));
+        public CommonRepository<CompanyDTO> Companies => _companies ?? (_companies = new CommonRepository<CompanyDTO>(httpConfig.GetClient(config.Url.Company), lastQueryTime, logger));
+        public CommonRepository<NoteDTO> NotesCompany => _notesCompany ?? (_notesCompany = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesCompany), lastQueryTime, logger));
 
-        public CommonRepository<TaskDTO> Tasks => _tasks ?? (_tasks = new CommonRepository<TaskDTO>(httpConfig.GetClient(config.Url.Task)));
-        public CommonRepository<NoteDTO> NotesTask => _notesTask ?? (_notesTask = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesTask)));
+        public CommonRepository<TaskDTO> Tasks => _tasks ?? (_tasks = new CommonRepository<TaskDTO>(httpConfig.GetClient(config.Url.Task), lastQueryTime, logger));
+        public CommonRepository<NoteDTO> NotesTask => _notesTask ?? (_notesTask = new CommonRepository<NoteDTO>(httpConfig.GetClient(config.Url.NotesTask), lastQueryTime, logger));
 
 
-        public CommonRepository<CatalogDTO> Catalogs => _catalogs ?? (_catalogs = new CommonRepository<CatalogDTO>(httpConfig.GetClient(config.Url.Catalog)));
+        public CommonRepository<CatalogDTO> Catalogs => _catalogs ?? (_catalogs = new CommonRepository<CatalogDTO>(httpConfig.GetClient(config.Url.Catalog), lastQueryTime, logger));
 
 
         public FieldsRepository Fields => _fields ?? (_fields = new FieldsRepository(httpConfig.GetClient(config.Url.Fields)));
