@@ -17,7 +17,7 @@ namespace LibraryAmoCRM.Configuration
 
     }
 
-    public enum Users
+    public enum ResponsibleUserEnum
     {
         Robot = 2076025,
         Лина_Серрие = 2079676,
@@ -37,7 +37,7 @@ namespace LibraryAmoCRM.Configuration
         Написать_письмо = 3
     }
 
-    public enum ElementType
+    public enum ElementTypeEnum
     {
         Контакт = 1,
         Сделка = 2,

@@ -1,4 +1,5 @@
 ﻿using LibraryAmoCRM.Configuration;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -17,6 +18,7 @@ namespace LibraryAmoCRM
             this.config = config;
 
             handler.CookieContainer = new System.Net.CookieContainer();
+            handler.UseCookies = true;
         }
 
         public HttpClient GetClient(Uri query)
@@ -26,11 +28,13 @@ namespace LibraryAmoCRM
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+            client.DefaultRequestHeaders.ConnectionClose = false;
+            client.DefaultRequestHeaders.Connection.Add("Keep-Alive");
             return client;
         }
 
-        public void Auth(Object obj) // Object нужен только для соответствия сигнатуре делегата TimerCallback, и не используется.
-        {  
+        public void Auth(object logger) // Object нужен для соответствия сигнатуре делегата TimerCallback
+        {
             var requestParams = new Dictionary<string, string>
                     {
                         { "USER_LOGIN", config.User},
@@ -41,6 +45,8 @@ namespace LibraryAmoCRM
             var content = new FormUrlEncodedContent(requestParams);
             var response = client.PostAsync("", content).Result;
             var responseData = response.Content.ReadAsStringAsync().Result;
+
+            ((ILogger)logger).Information("CRM | Запрос на авторизацию. {Time}, Результат - {@Result}", DateTime.Now.ToString(), responseData);
         }
     }
 }

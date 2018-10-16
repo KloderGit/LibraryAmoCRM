@@ -69,17 +69,19 @@ namespace LibraryAmoCRM.Implements
                 var request = client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter()).Result;
                 request.EnsureSuccessStatusCode();
 
-                var response = await request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter());
+                var response = await request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter());                
 
-                result = response._embedded.items.FirstOrDefault();
+                result = response._embedded.items?.FirstOrDefault();
+
+                logger.Information(GetType().Assembly.GetName().Name + " | Добавлена запись -  {Id}, {Type}", result?.Id, typeof(T).Name);
             }
             catch (HttpRequestException ex)
             {
-                logger.Warning(ex, "HTTP Ошибка при добавлении записи {Type}", typeof(T));
+                logger.Warning(ex, GetType().Assembly.GetName().Name + " | HTTP Ошибка при добавлении записи {Type}", typeof(T).Name);
             }
             catch (Exception ex)
             {
-                logger.Warning(ex, "Ошибка при добавлении записи {Type}", typeof(T));
+                logger.Warning(ex, GetType().Assembly.GetName().Name + " | Ошибка при добавлении записи {Type}", typeof(T).Name);
             }
 
             return result;
@@ -96,16 +98,20 @@ namespace LibraryAmoCRM.Implements
 
                 var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
 
-                return response?.Result?._embedded?.items;
+                var result = response?.Result?._embedded?.items;
+
+                logger.Information(GetType().Assembly.GetName().Name + " | Получено - {Count} записей | Id - {Array} | {Type} ", result?.Count(), result?.Select(i=>i.Id), typeof(T).Name);
+
+                return result;
             }
             catch (HttpRequestException ex)
             {
-                logger.Warning(ex, "HTTP Ошибка при чтении записи {Type}", typeof(T));
+                logger.Warning(ex, GetType().Assembly.GetName().Name + " | HTTP Ошибка при чтении записи {Type}", typeof(T).Name);
                 return null;
             }
             catch (Exception ex)
             {
-                logger.Warning(ex, "Ошибка при чтении записи {Type}", typeof(T));
+                logger.Warning(ex, GetType().Assembly.GetName().Name + " | Ошибка при чтении записи {Type}", typeof(T).Name);
                 return null;
             }
         }
@@ -113,7 +119,8 @@ namespace LibraryAmoCRM.Implements
         public async Task Update(T item) {
 
             var updatedObject = item;
-            updatedObject.UpdatedAt = DateTime.Now;
+            if (item.UpdatedAt.HasValue) {  updatedObject.UpdatedAt = item.UpdatedAt.Value.AddMilliseconds(500); }
+            else {  updatedObject.UpdatedAt = DateTime.Now; }
 
             var obj = new
             {
@@ -137,17 +144,17 @@ namespace LibraryAmoCRM.Implements
                 request.EnsureSuccessStatusCode();
 
                 var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
-                var ddd = await request.Content.ReadAsStringAsync();
+                var jsonResult = await request.Content.ReadAsStringAsync();
 
-                logger.Warning("Ответ AmoCRM {http}", ddd);
+                logger.Information(GetType().Assembly.GetName().Name + " | Обновлена запись -  {Id}, {Type} / Ответ crm - {Response}", item.Id, typeof(T).Name, jsonResult);
             }
             catch (HttpRequestException ex)
             {
-                logger.Warning(ex, "HTTP Ошибка при обновлении записи {Type}, {@Eequest}", typeof(T), request);
+                logger.Warning(ex, GetType().Assembly.GetName().Name + " | HTTP Ошибка при обновлении записи {Type}, {@Request}", typeof(T).Name, request);
             }
             catch (Exception ex)
             {
-                logger.Warning(ex, "Ошибка при обновлении записи {Type}", typeof(T));
+                logger.Warning(ex, GetType().Assembly.GetName().Name + " | Ошибка при обновлении записи {Type}", typeof(T).Name);
             }
         }
 

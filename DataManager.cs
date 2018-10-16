@@ -20,24 +20,28 @@ namespace LibraryAmoCRM
 
         ILogger logger;
 
+        string assamblyName;
+
         public DataManager(string account, string user, string hash)
         {
             config = new AssemblyConfig(account, user, hash);
-            httpConfig = new AmoHTTPClient(config);
 
             this.logger = new LoggerConfiguration()
                     .WriteTo.Seq("http://logs.fitness-pro.ru:5341")
                     .CreateLogger();
 
-            httpConfig.Auth(null);
+            httpConfig = new AmoHTTPClient(config);
 
+            httpConfig.Auth(logger);
+
+            assamblyName = GetType().Assembly.GetName().Name;
 
             TimerCallback tm = new TimerCallback(httpConfig.Auth);
-            Timer keepConnection = new Timer(tm, null, 780000, 780000);
+            Timer keepConnection = new Timer(tm, logger, 780000, 780000);
 
             Account = Fields.GetAccount().Result;
 
-            logger.Information("AmoCRM Datamanager Start");
+            logger.Information($"{assamblyName} CRM | Datamanager Start");
         }
 
         CommonRepository<LeadDTO> _leads;
