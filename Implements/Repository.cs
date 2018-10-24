@@ -14,35 +14,24 @@ using System.Threading.Tasks;
 
 namespace LibraryAmoCRM.Implements
 {
-    public class CommonRepository<T>: IAcceptParams, ICommonRepository<T> where T : CoreDTO
+    public class Repository<T>: IQueryParam, IRepository<T> where T : CoreDTO
     {
-        HttpClient client;
-
         public List<KeyValuePair<string, string>> QueryParameters { get; set; }
 
         public Func<Task<IEnumerable<T>>> Execute { get; set; }
 
-        private QueryPerSecond lastQuery = new QueryPerSecond();
+        Connection connection;
 
         private ILogger logger;
 
-        public CommonRepository(HttpClient client)
+        public Repository(Connection connection, ILogger logger)
         {
-            this.client = client;
+            this.connection = connection;
             QueryParameters = new List<KeyValuePair<string, string>>();
-        }
-
-        public CommonRepository(HttpClient client, QueryPerSecond lastQueryTime, ILogger logger)
-        {
-            this.client = client;
-            QueryParameters = new List<KeyValuePair<string, string>>();
-            lastQuery = lastQueryTime;
             this.logger = logger;
         }
 
-        ~CommonRepository(){ client.Dispose(); }
-
-        public CommonRepository<T> Get() 
+        public IRepository<T> Get() 
         {
             Execute = GetItemsMetod;
             return this;
@@ -64,14 +53,17 @@ namespace LibraryAmoCRM.Implements
 
             try
             {
-                lastQuery.NeedWait();
+                Connection.Waiting();
 
-                var request = client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter()).Result;
-                request.EnsureSuccessStatusCode();
+                using (var client = connection.GetClient<T>())
+                {
+                    var request = client.PostAsync( "", obj, new MediaTypesFormatters().PostJsonFormatter() ).Result;
+                    request.EnsureSuccessStatusCode();
 
-                var response = await request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter());                
+                    var response = await request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
 
-                result = response._embedded.items?.FirstOrDefault();
+                    result = response._embedded.items?.FirstOrDefault();
+                }
 
                 logger.Information(GetType().Assembly.GetName().Name + " | Добавлена запись -  {Id}, {Type}", result?.Id, typeof(T).Name);
             }
@@ -89,16 +81,21 @@ namespace LibraryAmoCRM.Implements
 
         protected async Task<IEnumerable<T>> GetItemsMetod()
         {
+            IEnumerable<T> result = null;
+
             try
             {
-                lastQuery.NeedWait();
+                Connection.Waiting();
 
-                var request = await client.GetAsync(BuildQueryParams());
-                request.EnsureSuccessStatusCode();
+                using (var client = connection.GetClient<T>())
+                {
+                    var request = await client.GetAsync( BuildQueryParams() );
+                    request.EnsureSuccessStatusCode();
 
-                var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
+                    var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
 
-                var result = response?.Result?._embedded?.items;
+                    result = response?.Result?._embedded?.items;
+                }                
 
                 logger.Information(GetType().Assembly.GetName().Name + " | Получено - {Count} записей | Id - {Array} | {Type} ", result?.Count(), result?.Select(i=>i.Id), typeof(T).Name);
 
@@ -134,19 +131,22 @@ namespace LibraryAmoCRM.Implements
                 throw new IncorectQueryException("Не указан ID");
             }
 
-
             HttpResponseMessage request = null;
+
             try
             {
-                lastQuery.NeedWait();
+                Connection.Waiting();
 
-                request = await client.PostAsync("", obj, new MediaTypesFormatters().PostJsonFormatter() );
-                request.EnsureSuccessStatusCode();
+                using (var client = connection.GetClient<T>())
+                {
+                    request = await client.PostAsync( "", obj, new MediaTypesFormatters().PostJsonFormatter() );
+                    request.EnsureSuccessStatusCode();
 
-                var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
-                var jsonResult = await request.Content.ReadAsStringAsync();
+                    var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
+                    var jsonResult = await request.Content.ReadAsStringAsync();
 
-                logger.Information(GetType().Assembly.GetName().Name + " | Обновлена запись -  {Id}, {Type} / Ответ crm - {Response}", item.Id, typeof(T).Name, jsonResult);
+                    logger.Information( GetType().Assembly.GetName().Name + " | Обновлена запись -  {Id}, {Type} / Ответ crm - {Response}", item.Id, typeof( T ).Name, jsonResult );
+                }
             }
             catch (HttpRequestException ex)
             {
@@ -185,8 +185,6 @@ namespace LibraryAmoCRM.Implements
             {
                 throw new IncorectQueryException("Запрос Offset без установленного Limit");
             }
-
-            //if (QueryParameters.Select(x => x.Key).Count() > 0) { client.DefaultRequestHeaders.Add("IF-MODIFIED-SINCE", DateTime.Now.ToUniversalTime().ToString() ); }
 
             var result = new FormUrlEncodedContent(QueryParameters).ReadAsStringAsync().Result;
             QueryParameters.Clear();

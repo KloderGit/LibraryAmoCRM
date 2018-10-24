@@ -10,6 +10,12 @@ namespace LibraryAmoCRM.Implements
     public class FieldsRepository
     {
         HttpClient client;
+        Connection connection;
+
+        public FieldsRepository(Connection connection)
+        {
+            this.connection = connection;
+        }
 
         public FieldsRepository(HttpClient client)
         {
@@ -18,6 +24,8 @@ namespace LibraryAmoCRM.Implements
 
         public async Task<Account> GetAccount()
         {
+            //var client = connection.GetClient();
+
             try
             {
                 var request = await client.GetAsync("?with=custom_fields,users,messenger,notifications,pipelines,groups,note_types,task_types");
