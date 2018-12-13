@@ -24,11 +24,15 @@ namespace LibraryAmoCRM.Implements
 
         private ILogger logger;
 
+        string AssemblyName;
+
         public Repository(Connection connection, ILogger logger)
         {
             this.connection = connection;
             QueryParameters = new List<KeyValuePair<string, string>>();
             this.logger = logger;
+
+            this.AssemblyName = GetType().Assembly.GetName().Name;
         }
 
         public IRepository<T> Get() 
@@ -37,18 +41,33 @@ namespace LibraryAmoCRM.Implements
             return this;
         }
 
+        public async Task<IEnumerable<T>> Add(IEnumerable<T> items)
+        {
+            var updatedObjects = items;
+            updatedObjects.ToList().ForEach( (e) => e.UpdatedAt = DateTime.Now );
+
+            var result = await Adding(updatedObjects.ToArray());
+
+            return result;
+        }
+
         public async Task<T> Add(T item)
         {
-            T result = null;
-
             var updatedObject = item;
             updatedObject.UpdatedAt = DateTime.Now;
 
+            var result = await Adding(new[] { updatedObject });
+
+            return result?.FirstOrDefault(); ;
+        }
+
+        protected async Task<IEnumerable<T>> Adding( Array items)
+        {
+            IEnumerable<T> result = null;
+
             var obj = new
             {
-                add = new[] {
-                    updatedObject
-                }
+                add = items
             };
 
             try
@@ -62,18 +81,18 @@ namespace LibraryAmoCRM.Implements
 
                     var response = await request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
 
-                    result = response._embedded.items?.FirstOrDefault();
+                    result = response._embedded.items;
                 }
 
-                logger.Information(GetType().Assembly.GetName().Name + " | Добавлена запись -  {Id}, {Type}", result?.Id, typeof(T).Name);
+                logger.Information(AssemblyName + " | Добавлены записи -  {Id}, {Type}", result?.Select(x=>x.Id), typeof(T).Name));                
             }
             catch (HttpRequestException ex)
             {
-                logger.Warning(ex, GetType().Assembly.GetName().Name + " | HTTP Ошибка при добавлении записи {Type}", typeof(T).Name);
+                logger.Warning(ex, AssemblyName + " | HTTP Ошибка при добавлении записи {Type}", typeof(T).Name);
             }
             catch (Exception ex)
             {
-                logger.Warning(ex, GetType().Assembly.GetName().Name + " | Ошибка при добавлении записи {Type}", typeof(T).Name);
+                logger.Warning(ex, AssemblyName + " | Ошибка при добавлении записи {Type}", typeof(T).Name);
             }
 
             return result;
@@ -89,26 +108,28 @@ namespace LibraryAmoCRM.Implements
 
                 using (var client = connection.GetClient<T>())
                 {
-                    var request = await client.GetAsync( BuildQueryParams() );
+                    var @params = BuildQueryParams();
+                    var request = await client.GetAsync(@params);
+                    logger.Information(AssemblyName + " | Запрос записей - {Type} по параметрам - {Params}", typeof(T).Name, @params);
                     request.EnsureSuccessStatusCode();
 
                     var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
 
                     result = response?.Result?._embedded?.items;
-                }                
+                }
 
-                logger.Information(GetType().Assembly.GetName().Name + " | Получено - {Count} записей | Id - {Array} | {Type} ", result?.Count(), result?.Select(i=>i.Id), typeof(T).Name);
+                logger.Information(AssemblyName + " | Получено - {Count} записей | Id - {Array} | {Type} ", result?.Count(), result?.Select(i => i.Id), typeof(T).Name);
 
                 return result;
             }
             catch (HttpRequestException ex)
             {
-                logger.Warning(ex, GetType().Assembly.GetName().Name + " | HTTP Ошибка при чтении записи {Type}", typeof(T).Name);
+                logger.Warning(ex, AssemblyName + " | HTTP Ошибка при чтении записи {Type}", typeof(T).Name);
                 return null;
             }
             catch (Exception ex)
             {
-                logger.Warning(ex, GetType().Assembly.GetName().Name + " | Ошибка при чтении записи {Type}", typeof(T).Name);
+                logger.Warning(ex, AssemblyName + " | Ошибка при чтении записи {Type}", typeof(T).Name);
                 return null;
             }
         }
@@ -145,16 +166,16 @@ namespace LibraryAmoCRM.Implements
                     var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
                     var jsonResult = await request.Content.ReadAsStringAsync();
 
-                    logger.Information( GetType().Assembly.GetName().Name + " | Обновлена запись -  {Id}, {Type} / Ответ crm - {Response}", item.Id, typeof( T ).Name, jsonResult );
+                    logger.Information(AssemblyName + " | Обновлена запись -  {Id}, {Type} / Ответ crm - {Response}", item.Id, typeof(T).Name, jsonResult);
                 }
             }
             catch (HttpRequestException ex)
             {
-                logger.Warning(ex, GetType().Assembly.GetName().Name + " | HTTP Ошибка при обновлении записи {Type}, {@Request}", typeof(T).Name, request);
+                logger.Warning(ex, AssemblyName + " | HTTP Ошибка при обновлении записи {Type}, {@Request}", typeof(T).Name, request);
             }
             catch (Exception ex)
             {
-                logger.Warning(ex, GetType().Assembly.GetName().Name + " | Ошибка при обновлении записи {Type}", typeof(T).Name);
+                logger.Warning(ex, AssemblyName + " | Ошибка при обновлении записи {Type}", typeof(T).Name);
             }
         }
 

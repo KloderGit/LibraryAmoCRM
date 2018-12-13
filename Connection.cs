@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace LibraryAmoCRM
 {
@@ -52,13 +53,13 @@ namespace LibraryAmoCRM
 
                 cookies = handler.CookieContainer.GetCookies( new Uri( "https://apfitness.amocrm.ru/" ) );
 
-                logger.Information( "новая Авторизация. {Time}, Результат - {@Result}", DateTime.Now.ToString(), responseData );
+                logger.Information("AmoCRM Авторизация. {Time}, Результат - {@Result}", DateTime.Now.ToString(), responseData);
             }
         }
 
         ~Connection()
         {
-            ( (ILogger)logger ).Information( "новая Авторизация - Объект уничтожен " );
+            ( (ILogger)logger ).Information( "AmoCRM Авторизация - Объект уничтожен " );
         }
 
         public HttpClient GetClient<T>()

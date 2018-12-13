@@ -9,6 +9,7 @@ using System;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace LibraryAmoCRM
 {
@@ -33,8 +34,6 @@ namespace LibraryAmoCRM
             assamblyName = GetType().Assembly.GetName().Name;
 
             Account = Fields.GetAccount().Result;
-
-            logger.Debug( $"{assamblyName} | Datamanager Start" );
         }
 
 
