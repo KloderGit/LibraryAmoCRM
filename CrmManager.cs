@@ -4,6 +4,7 @@ using LibraryAmoCRM.Infarstructure.QueryParams;
 using LibraryAmoCRM.Interfaces;
 using LibraryAmoCRM.Models;
 using LibraryAmoCRM.Models.SysModels;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 using System.Net.Http;
@@ -17,7 +18,9 @@ namespace LibraryAmoCRM
     {
         public Account Account { get; set; }
 
-        ILogger logger;
+        Serilog.ILogger logger;
+        ILoggerFactory loggerFactory;
+        Microsoft.Extensions.Logging.ILogger currentLogger;
 
         string assamblyName;
 
@@ -28,10 +31,20 @@ namespace LibraryAmoCRM
             this.connection = connection;
 
             this.logger = new LoggerConfiguration()
-                .WriteTo.Seq( "http://logs.fitness-pro.ru:5341" )
+                .WriteTo.Seq("http://logs.fitness-pro.ru:5341")
                 .CreateLogger();
 
             assamblyName = GetType().Assembly.GetName().Name;
+
+            Account = Fields.GetAccount().Result;
+        }
+
+        public CrmManager(Connection connection, ILoggerFactory loggerFactory)
+        {
+            this.loggerFactory = loggerFactory;
+            this.currentLogger = loggerFactory.CreateLogger(this.ToString());
+
+            this.connection = connection;
 
             Account = Fields.GetAccount().Result;
         }
@@ -47,17 +60,17 @@ namespace LibraryAmoCRM
         FieldsRepository _fields;
 
 
-        public IRepository<LeadDTO> Leads => _leads ?? (_leads = new Repository<LeadDTO>( connection, logger));
+        public IRepository<LeadDTO> Leads => _leads ?? (_leads = new Repository<LeadDTO>( connection, loggerFactory));
 
-        public IRepository<ContactDTO> Contacts => _contacts ?? (_contacts = new Repository<ContactDTO>( connection, logger));
+        public IRepository<ContactDTO> Contacts => _contacts ?? (_contacts = new Repository<ContactDTO>( connection, loggerFactory));
 
-        public IRepository<CompanyDTO> Companies => _companies ?? (_companies = new Repository<CompanyDTO>( connection, logger));
+        public IRepository<CompanyDTO> Companies => _companies ?? (_companies = new Repository<CompanyDTO>( connection, loggerFactory));
 
-        public IRepository<TaskDTO> Tasks => _tasks ?? (_tasks = new Repository<TaskDTO>( connection, logger));
+        public IRepository<TaskDTO> Tasks => _tasks ?? (_tasks = new Repository<TaskDTO>( connection, loggerFactory));
 
-        public IRepository<NoteDTO> Notes => _notes ?? ( _notes = new Repository<NoteDTO>( connection, logger ) );
+        public IRepository<NoteDTO> Notes => _notes ?? ( _notes = new Repository<NoteDTO>( connection, loggerFactory) );
 
-        public IRepository<CatalogDTO> Catalogs => _catalogs ?? (_catalogs = new Repository<CatalogDTO>( connection, logger));
+        public IRepository<CatalogDTO> Catalogs => _catalogs ?? (_catalogs = new Repository<CatalogDTO>( connection, loggerFactory));
 
 
         public FieldsRepository Fields => _fields ?? (_fields = new FieldsRepository(connection.GetClient<Account>()));
