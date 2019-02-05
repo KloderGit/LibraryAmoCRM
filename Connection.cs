@@ -20,6 +20,8 @@ namespace LibraryAmoCRM
         CookieCollection cookies = new CookieCollection();
         HttpClientHandler handler = new HttpClientHandler();
 
+        DateTime lastConnectionTime;
+
         public static DateTime LastQueryTime { get; set; } = DateTime.Now;
 
         ILogger logger;
@@ -32,11 +34,16 @@ namespace LibraryAmoCRM
                  .WriteTo.Seq( "http://logs.fitness-pro.ru:5341" )
                  .CreateLogger();
 
-            TimerCallback tm = new TimerCallback( Auth );
-            Timer keepConnection = new Timer( tm, null, 780000, 780000 );
+            logger.Information("Создан объект подключения к AmoCRM");
+
+            Timer keepConnection = new Timer(
+                new TimerCallback(Auth),
+                lastConnectionTime, 
+                780000, 
+                780000 );
         }
 
-        public void Auth(object gg) // Object нужен для соответствия сигнатуре делегата TimerCallback
+        public void Auth(object lastConnect) // Object нужен для соответствия сигнатуре делегата TimerCallback
         {
             using (var client = GetClient( config.Url.Auth ))
             {
@@ -49,11 +56,18 @@ namespace LibraryAmoCRM
 
                 var content = new FormUrlEncodedContent( requestParams );
                 var response = client.PostAsync( "", content ).Result;
+
+                var updateTime = DateTime.Now;
+
+                var offesTime = updateTime - (DateTime)lastConnect;
+
+                this.lastConnectionTime = updateTime;
+
                 var responseData = response.Content.ReadAsStringAsync().Result;
 
                 cookies = handler.CookieContainer.GetCookies( new Uri( "https://apfitness.amocrm.ru/" ) );
 
-                logger.Information("AmoCRM Авторизация. {Time}, Результат - {@Result}", DateTime.Now.ToString(), responseData);
+                logger.Information("AmoCRM Авторизация. {Time}, с разницей - {@Minutes}", DateTime.Now.ToString(), offesTime.Minutes);
             }
         }
 
