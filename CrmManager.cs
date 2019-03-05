@@ -73,7 +73,7 @@ namespace LibraryAmoCRM
         public IRepository<CatalogDTO> Catalogs => _catalogs ?? (_catalogs = new Repository<CatalogDTO>( connection, loggerFactory));
 
 
-        public FieldsRepository Fields => _fields ?? (_fields = new FieldsRepository(connection.GetClient<Account>()));
+        public FieldsRepository Fields => _fields ?? (_fields = new FieldsRepository(connection));
 
 
         public IRepository<T> Repository<T>() where T : CoreDTO

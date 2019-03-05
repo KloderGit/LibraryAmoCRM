@@ -24,11 +24,13 @@ namespace LibraryAmoCRM.Implements
 
         public async Task<Account> GetAccount()
         {
-            //var client = connection.GetClient();
-
             try
             {
-                var request = await client.GetAsync("?with=custom_fields,users,messenger,notifications,pipelines,groups,note_types,task_types");
+                var clientt = connection.Client;
+                var endpoint = connection.GetEndPoint<Account>();
+                var @params = "?with=custom_fields,users,messenger,notifications,pipelines,groups,note_types,task_types";
+
+                var request = await clientt.GetAsync(endpoint + @params);
                 request.EnsureSuccessStatusCode();
 
                 var response = request.Content.ReadAsAsync<Account>(new MediaTypesFormatters().GetHALFormatter());

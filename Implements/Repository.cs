@@ -17,18 +17,19 @@ namespace LibraryAmoCRM.Implements
 
         public Func<Task<IEnumerable<T>>> Execute { get; set; }
 
-        Connection connection;
+        Connection connection = null;
 
         ILoggerFactory loggerFactory;
         ILogger currentLogger;
 
         public Repository(Connection connection, ILoggerFactory loggerFactory)
         {
-            this.connection = connection;
             QueryParameters = new List<KeyValuePair<string, string>>();
 
+            this.connection = connection;
+
             this.loggerFactory = loggerFactory;
-            this.currentLogger = loggerFactory.CreateLogger(this.ToString());
+            this.currentLogger = loggerFactory.CreateLogger(this.ToString());;
         }
 
         public IRepository<T> Get() 
@@ -68,17 +69,14 @@ namespace LibraryAmoCRM.Implements
 
             try
             {
-                Connection.Waiting();
+                var endpoint = connection.GetEndPoint<T>();
 
-                using (var client = connection.GetClient<T>())
-                {
-                    var request = client.PostAsync( "", obj, new MediaTypesFormatters().PostJsonFormatter() ).Result;
-                    request.EnsureSuccessStatusCode();
+                var request = connection.Client.PostAsync(endpoint, obj, new MediaTypesFormatters().PostJsonFormatter() ).Result;
+                request.EnsureSuccessStatusCode();
 
-                    var response = await request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
+                var response = await request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
 
-                    result = response._embedded.items;
-                }
+                result = response._embedded.items;
 
                 currentLogger.LogInformation("Добавлены записи -  {Id}, {Type}", result?.Select(x=>x.Id), typeof(T).Name);                
             }
@@ -100,28 +98,21 @@ namespace LibraryAmoCRM.Implements
 
             try
             {
-                Connection.Waiting();
+                var endpoint = connection.GetEndPoint<T>();
 
-                using (var client = connection.GetClient<T>())
-                {
-                    var @params = BuildQueryParams();
-                    var request = await client.GetAsync(@params);
-                    currentLogger.LogInformation("Запрос записей - {Type} по параметрам - {Params}", typeof(T).Name, @params);
-                    request.EnsureSuccessStatusCode();
+                var @params = BuildQueryParams();
 
-                    var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
+                var request = await connection.Client.GetAsync(endpoint + @params);
+                currentLogger.LogInformation("Запрос записей - {Type} по параметрам - {Params}", typeof(T).Name, @params);
+                request.EnsureSuccessStatusCode();
 
-                    result = response?.Result?._embedded?.items;
-                }
+                var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
+
+                result = response?.Result?._embedded?.items;
 
                 currentLogger.LogInformation("Получено - {Count} записей | Id - {Array} | {Type} ", result?.Count(), result?.Select(i => i.Id), typeof(T).Name);
 
                 return result;
-            }
-            catch (HttpRequestException ex)
-            {
-                currentLogger.LogWarning(ex, "HTTP Ошибка при чтении записи {Type}", typeof(T).Name);
-                return null;
             }
             catch (Exception ex)
             {
@@ -152,18 +143,15 @@ namespace LibraryAmoCRM.Implements
 
             try
             {
-                Connection.Waiting();
+                var endpoint = connection.GetEndPoint<T>();
 
-                using (var client = connection.GetClient<T>())
-                {
-                    request = await client.PostAsync( "", obj, new MediaTypesFormatters().PostJsonFormatter() );
-                    request.EnsureSuccessStatusCode();
+                request = await connection.Client.PostAsync(endpoint, obj, new MediaTypesFormatters().PostJsonFormatter() );
+                request.EnsureSuccessStatusCode();
 
-                    var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
-                    var jsonResult = await request.Content.ReadAsStringAsync();
+                var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
+                var jsonResult = await request.Content.ReadAsStringAsync();
 
-                    currentLogger.LogInformation("Обновлена запись -  {Id}, {Type} / Ответ crm - {Response}", item.Id, typeof(T).Name, jsonResult);
-                }
+                currentLogger.LogInformation("Обновлена запись - {Id}", item.Id);
             }
             catch (HttpRequestException ex)
             {

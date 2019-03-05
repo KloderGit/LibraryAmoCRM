@@ -18,8 +18,6 @@ namespace LibraryAmoCRM.Configuration
             User = user;
             Password = hash;
         }
-
-
     }
 
     public enum Catalogs

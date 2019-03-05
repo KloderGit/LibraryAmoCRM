@@ -11,6 +11,7 @@ namespace LibraryAmoCRM.Configuration
         Uri _baseUrl { get; }
         Dictionary<Type, Uri> urls = new Dictionary<Type, Uri>();
 
+        public Uri Base { get => _baseUrl; }
 
         public Uri Auth { get => new Uri( _baseUrl, "private/api/auth.php" ); }
 
