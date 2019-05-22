@@ -49,10 +49,10 @@ namespace LibraryAmoCRM
             Timer keepConnection = new Timer(
                 new TimerCallback(Auth),
                 null,
-                300000,
-                300000);
+                0,
+                420000);
 
-            Auth(null);
+            //Auth(null);
         }
 
         public void Auth(object obj)

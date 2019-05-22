@@ -102,6 +102,8 @@ namespace LibraryAmoCRM.Implements
 
                 var @params = BuildQueryParams();
 
+                if (String.IsNullOrEmpty(@params)) throw new ArgumentNullException("Не заданы параметры для выборки из Crm");
+
                 var request = await connection.Client.GetAsync(endpoint + @params);
                 currentLogger.LogInformation("Запрос записей - {Type} по параметрам - {Params}", typeof(T).Name, @params);
                 request.EnsureSuccessStatusCode();
@@ -122,6 +124,8 @@ namespace LibraryAmoCRM.Implements
         }
 
         public async Task Update(T item) {
+
+            if (item == null) throw new ArgumentNullException();
 
             var updatedObject = item;
             if (item.UpdatedAt.HasValue) {  updatedObject.UpdatedAt = item.UpdatedAt.Value.AddMilliseconds(500); }
@@ -145,10 +149,10 @@ namespace LibraryAmoCRM.Implements
             {
                 var endpoint = connection.GetEndPoint<T>();
 
-                request = await connection.Client.PostAsync(endpoint, obj, new MediaTypesFormatters().PostJsonFormatter() );
+                request = await connection.Client.PostAsync(endpoint, obj, new MediaTypesFormatters().PostJsonFormatter());
                 request.EnsureSuccessStatusCode();
 
-                var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
+                var response = request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter());
                 var jsonResult = await request.Content.ReadAsStringAsync();
 
                 currentLogger.LogInformation("Обновлена запись - {Id}", item.Id);
@@ -156,6 +160,10 @@ namespace LibraryAmoCRM.Implements
             catch (HttpRequestException ex)
             {
                 currentLogger.LogWarning(ex, "HTTP Ошибка при обновлении записи {Type}, {@Request}", typeof(T).Name, request);
+            }
+            catch (ArgumentException ex)
+            {
+                return;
             }
             catch (Exception ex)
             {
