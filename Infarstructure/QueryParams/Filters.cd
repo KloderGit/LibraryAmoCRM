@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LibraryAmoCRM.CoreFilter">
+    <Position X="2" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAQAAAAABAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibraryAmoCRM.PeriodFilter">
+    <Position X="4" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>PeriodFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibraryAmoCRM.LeadFilter">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAQAAAAAAAAAAAAAAAggAAAAAAAAAAA=</HashCode>
+      <FileName>LeadFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibraryAmoCRM.CustomerFilter">
+    <Position X="7" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>ContactFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibraryAmoCRM.TaskFilter">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TaskFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibraryAmoCRM.NoteFilter">
+    <Position X="7" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NoteFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -17,19 +17,6 @@ namespace LibraryAmoCRM.Configuration
 
     }
 
-    public enum Users
-    {
-        Robot = 2076025,
-        Лина_Серрие = 2079676,
-        Анастасия_Столовая = 2079679,
-        Ирина_Моисеева = 2079682,
-        Евгения_Ковалева = 2079688,
-        Наталья_Бердникова = 2079706,
-        Мила_Коммендантова = 2079712,
-        Илья_Иджян = 2079718,
-        Ксения_Харымова = 2267437
-    }
-
     public enum TaskType
     {
         Звонок = 1,
@@ -37,7 +24,7 @@ namespace LibraryAmoCRM.Configuration
         Написать_письмо = 3
     }
 
-    public enum ElementType
+    public enum ElementTypeEnum
     {
         Контакт = 1,
         Сделка = 2,

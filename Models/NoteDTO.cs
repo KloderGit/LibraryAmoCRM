@@ -15,5 +15,17 @@ namespace LibraryAmoCRM.Models
 
         [JsonProperty(PropertyName = "note_type")]
         public int? NoteType { get; set; }
+
+        [JsonProperty(PropertyName = "params")]
+        public NoteParams Params { get; set; }
+    }
+
+    public class NoteParams
+    {
+        [JsonProperty(PropertyName = "text")]
+        public string Text { get; set; }
+
+        [JsonProperty(PropertyName = "service")]
+        public string Service { get; set; }
     }
 }
