@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LibraryAmoCRM.Infarstructure.Attributes;
+using System.Collections.Generic;
 
 namespace LibraryAmoCRM.Infarstructure.QueryParams
 {
@@ -7,6 +8,7 @@ namespace LibraryAmoCRM.Infarstructure.QueryParams
         /// <summary>
         /// Получение данных по типу указанной сущности (lead/contact/company/customer)
         /// </summary>
+        [QueryParamName("type")]
         public string ForEntity
         {
             set => result = new KeyValuePair<string, string>( "type", value );
@@ -15,6 +17,7 @@ namespace LibraryAmoCRM.Infarstructure.QueryParams
         /// <summary>
         /// фильтр поиска по id сущности
         /// </summary>
+        [QueryParamName("element_id")]
         public int ElementId
         {
             set => result = new KeyValuePair<string, string>( "element_id", value.ToString() );

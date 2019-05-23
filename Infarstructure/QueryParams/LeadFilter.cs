@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LibraryAmoCRM.Infarstructure.Attributes;
+using System.Collections.Generic;
 
 namespace LibraryAmoCRM.Infarstructure.QueryParams
 {
@@ -7,33 +8,25 @@ namespace LibraryAmoCRM.Infarstructure.QueryParams
         /// <summary>
         /// Фильтр на совпадение в основных полях сделки или контактов (телефон, почта, название, фио и пр.)
         /// </summary>
-        public string Query
-        {
-            set => result = new KeyValuePair<string, string>( "query", value.ToString() );
-        }
+        [QueryParamName("query")]
+        public string Query { get; set; }
 
         /// <summary>
         /// Фильтр сделок на определенных статусах
         /// </summary>
-        public int Status
-        {
-            set => result = new KeyValuePair<string, string>( "status[]", value.ToString() );
-        }
+        [QueryParamName("status[]")]
+        public int Status { get; set; }
 
         /// <summary>
         /// Фильтр активныч сделок
         /// </summary>
-        public bool Active
-        {
-            set => result = new KeyValuePair<string, string>( "filter[active]", value ? "1" : "0" );
-        }
+        [QueryParamName("filter[active]")]
+        public bool Active { get; set; }
 
         /// <summary>
         /// Фильтр сделок: без задач - 0 \ с просроченными задачами - 1
         /// </summary>
-        public bool WithTaskTypes
-        {
-            set => result = new KeyValuePair<string, string>( "filter[tasks]", value ? "1" : "0" );
-        }
+        [QueryParamName("filter[tasks]")]
+        public bool WithTaskTypes { get; set; }
     }
 }

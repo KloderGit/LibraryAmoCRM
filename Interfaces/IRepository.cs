@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace LibraryAmoCRM.Interfaces
 {
-    public interface IRepository<T> where T : CoreDTO
+    public interface IRepository<T>
     {
-        IRepository<T> Get();
-        Func<Task<IEnumerable<T>>> Execute { get; set; }
         Task<T> Add(T item);
-        Task<IEnumerable<T>> Add(IEnumerable<T> item);
-        Task Update(T item);
     }
 }

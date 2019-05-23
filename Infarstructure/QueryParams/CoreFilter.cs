@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LibraryAmoCRM.Infarstructure.Attributes;
+using System.Collections.Generic;
 
 namespace LibraryAmoCRM.Infarstructure.QueryParams
 {
@@ -9,25 +10,19 @@ namespace LibraryAmoCRM.Infarstructure.QueryParams
         /// <summary>
         /// Фильтр по Id сущности
         /// </summary>
-        public int Id
-        {
-            set => result = new KeyValuePair<string, string>( "id[]", value.ToString() );
-        }
+        [QueryParamName("id[]")]
+        public int Id { get; set; }
 
         /// <summary>
         /// Лимит выборки (ограничение по умолчанию - 500)
         /// </summary>
-        public int LimitRows
-        {
-            set => result = new KeyValuePair<string, string>( "limit_rows", value.ToString() );
-        }
+        [QueryParamName("limit_rows")]
+        public int LimitRows { get; set; }
 
         /// <summary>
         /// Смещение выборки. Устанавливается только с LimitRows
         /// </summary>
-        public int LimitOffset
-        {
-            set => result = new KeyValuePair<string, string>( "limit_offset", value.ToString() );
-        }
+        [QueryParamName("limit_offset")]
+        public int LimitOffset { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibraryAmoCRM.Infarstructure.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace LibraryAmoCRM.Infarstructure.QueryParams
@@ -8,41 +9,31 @@ namespace LibraryAmoCRM.Infarstructure.QueryParams
         /// <summary>
         /// Фильтр по ответственным менеджерам
         /// </summary>
-        public int ResponsibleUser
-        {
-            set => result = new KeyValuePair<string, string>( "responsible_user_id[]", value.ToString() );
-        }
+        [QueryParamName("responsible_user_id[]")]
+        public int ResponsibleUser { get; set; }
 
         /// <summary>
         /// Фильтр - даты создания старше чем дата
         /// </summary>
-        public DateTime CreateFrom
-        {
-            set => result = new KeyValuePair<string, string>( "filter[date_create][from]", value.Millisecond.ToString() );
-        }
+        [QueryParamName("filter[date_create][from]")]
+        public DateTime CreateFrom { get; set; }
 
         /// <summary>
         /// Фильтр - даты создания до даты
         /// </summary>
-        public DateTime CreateTo
-        {
-            set => result = new KeyValuePair<string, string>( "filter[date_create][to]", value.Millisecond.ToString() );
-        }
+        [QueryParamName("filter[date_create][to]")]
+        public DateTime CreateTo { get; set; }
 
         /// <summary>
         /// Фильтр - даты изменения старше чем дата
         /// </summary>
-        public DateTime ModifyFrom
-        {
-            set => result = new KeyValuePair<string, string>( "filter[date_modify][from]", value.Millisecond.ToString() );
-        }
+        [QueryParamName("filter[date_modify][from]")]
+        public DateTime ModifyFrom { get; set; }
 
         /// <summary>
         /// Фильтр - даты изменения до даты
         /// </summary>
-        public DateTime ModifyTo
-        {
-            set => result = new KeyValuePair<string, string>( "filter[date_modify][to]", value.Millisecond.ToString() );
-        }
+        [QueryParamName("filter[date_modify][to]")]
+        public DateTime ModifyTo { get; set; }
     }
 }

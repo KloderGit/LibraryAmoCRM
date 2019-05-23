@@ -21,9 +21,9 @@ namespace LibraryAmoCRM.Infarstructure.QueryParams
             return item;
         }
 
-        public static IRepository<ContactDTO> Filter(this IRepository<ContactDTO> item, Action<CustomerFilter> action) 
+        public static IRepository<ContactDTO> Filter(this IRepository<ContactDTO> item, Action<ContactFilter> action) 
         {
-            var param = new CustomerFilter();
+            var param = new ContactFilter();
             action( param );
             var pair = param.result;
 
@@ -34,9 +34,9 @@ namespace LibraryAmoCRM.Infarstructure.QueryParams
             return item;
         }
 
-        public static IRepository<CompanyDTO> Filter(this IRepository<CompanyDTO> item, Action<CustomerFilter> action)
+        public static IRepository<CompanyDTO> Filter(this IRepository<CompanyDTO> item, Action<ContactFilter> action)
         {
-            var param = new CustomerFilter();
+            var param = new ContactFilter();
             action( param );
             var pair = param.result;
 

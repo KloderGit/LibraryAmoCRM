@@ -1,208 +1,81 @@
 ﻿using LibraryAmoCRM.Infarstructure;
 using LibraryAmoCRM.Infarstructure.Exceptions;
+using LibraryAmoCRM.Infarstructure.Visitor;
 using LibraryAmoCRM.Interfaces;
 using LibraryAmoCRM.Models;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace LibraryAmoCRM.Implements
 {
-    public class Repository<T>: IQueryParam, IRepository<T> where T : CoreDTO
+    public class Repository<T>: IQueryableRepository<T>
     {
-        public List<KeyValuePair<string, string>> QueryParameters { get; set; }
-
-        public Func<Task<IEnumerable<T>>> Execute { get; set; }
-
         Connection connection = null;
 
-        ILoggerFactory loggerFactory;
-        ILogger currentLogger;
+        public Repository(Connection connection) => this.connection = connection;
 
-        public Repository(Connection connection, ILoggerFactory loggerFactory)
+        public ICollection<Expression> Expressions { get; set; } = new List<Expression>();
+
+        public IQueryableRepository<T> CreateQuery(Expression expression)
         {
-            QueryParameters = new List<KeyValuePair<string, string>>();
-
-            this.connection = connection;
-
-            this.loggerFactory = loggerFactory;
-            this.currentLogger = loggerFactory.CreateLogger(this.ToString());;
-        }
-
-        public IRepository<T> Get() 
-        {
-            Execute = GetItemsMetod;
+            Expressions.Add(expression);
             return this;
         }
 
-        public async Task<IEnumerable<T>> Add(IEnumerable<T> items)
+
+
+        public Task<T> Add(T item)
         {
-            var updatedObjects = items;
-            updatedObjects.ToList().ForEach( (e) => e.UpdatedAt = DateTime.Now );
-
-            var result = await Adding(updatedObjects.ToArray());
-
-            return result;
+            throw new NotImplementedException();
         }
 
-        public async Task<T> Add(T item)
+
+        public TResult Execute<TResult>()
         {
-            var updatedObject = item;
-            updatedObject.UpdatedAt = DateTime.Now;
+            var endpoint = connection.GetEndPoint<T>();
+            var query = BuildQueryParams();
 
-            var result = await Adding(new[] { updatedObject });
+            connection.Auth(null);
 
-            return result?.FirstOrDefault(); ;
+            var request = connection.Client.GetAsync(endpoint + query).Result;
+
+            var response = request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter()).Result;
+
+            var result = response._embedded.items;
+
+            return (TResult)result;
         }
 
-        protected async Task<IEnumerable<T>> Adding( Array items)
+        public IEnumerator<T> GetEnumerator()
         {
-            IEnumerable<T> result = null;
+            var result = Execute<IEnumerable<T>>();
 
-            var obj = new
-            {
-                add = items
-            };
-
-            try
-            {
-                var endpoint = connection.GetEndPoint<T>();
-
-                var request = connection.Client.PostAsync(endpoint, obj, new MediaTypesFormatters().PostJsonFormatter() ).Result;
-                request.EnsureSuccessStatusCode();
-
-                var response = await request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
-
-                result = response._embedded.items;
-
-                currentLogger.LogInformation("Добавлены записи -  {Id}, {Type}", result?.Select(x=>x.Id), typeof(T).Name);                
-            }
-            catch (HttpRequestException ex)
-            {
-                currentLogger.LogWarning(ex, "HTTP Ошибка при добавлении записи {Type}", typeof(T).Name);
-            }
-            catch (Exception ex)
-            {
-                currentLogger.LogWarning(ex,"Ошибка при добавлении записи {Type}", typeof(T).Name);
-            }
-
-            return result;
+            return result.GetEnumerator();
         }
 
-        protected async Task<IEnumerable<T>> GetItemsMetod()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            IEnumerable<T> result = null;
-
-            try
-            {
-                var endpoint = connection.GetEndPoint<T>();
-
-                var @params = BuildQueryParams();
-
-                if (String.IsNullOrEmpty(@params)) throw new ArgumentNullException("Не заданы параметры для выборки из Crm");
-
-                var request = await connection.Client.GetAsync(endpoint + @params);
-                currentLogger.LogInformation("Запрос записей - {Type} по параметрам - {Params}", typeof(T).Name, @params);
-                request.EnsureSuccessStatusCode();
-
-                var response = request.Content.ReadAsAsync<HAL<T>>( new MediaTypesFormatters().GetHALFormatter() );
-
-                result = response?.Result?._embedded?.items;
-
-                currentLogger.LogInformation("Получено - {Count} записей | Id - {Array} | {Type} ", result?.Count(), result?.Select(i => i.Id), typeof(T).Name);
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                currentLogger.LogWarning(ex, "Ошибка при чтении записи {Type}", typeof(T).Name);
-                return null;
-            }
+            return GetEnumerator();
         }
 
-        public async Task Update(T item) {
-
-            if (item == null) throw new ArgumentNullException();
-
-            var updatedObject = item;
-            if (item.UpdatedAt.HasValue) {  updatedObject.UpdatedAt = item.UpdatedAt.Value.AddMilliseconds(500); }
-            else {  updatedObject.UpdatedAt = DateTime.Now; }
-
-            var obj = new
-            {
-                update = new[] {
-                    updatedObject
-                }
-            };
-
-            if (updatedObject.Id == null || updatedObject.Id == 0)
-            {
-                throw new IncorectQueryException("Не указан ID");
-            }
-
-            HttpResponseMessage request = null;
-
-            try
-            {
-                var endpoint = connection.GetEndPoint<T>();
-
-                request = await connection.Client.PostAsync(endpoint, obj, new MediaTypesFormatters().PostJsonFormatter());
-                request.EnsureSuccessStatusCode();
-
-                var response = request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter());
-                var jsonResult = await request.Content.ReadAsStringAsync();
-
-                currentLogger.LogInformation("Обновлена запись - {Id}", item.Id);
-            }
-            catch (HttpRequestException ex)
-            {
-                currentLogger.LogWarning(ex, "HTTP Ошибка при обновлении записи {Type}, {@Request}", typeof(T).Name, request);
-            }
-            catch (ArgumentException ex)
-            {
-                return;
-            }
-            catch (Exception ex)
-            {
-                currentLogger.LogWarning(ex, "Ошибка при обновлении записи {Type}", typeof(T).Name);
-            }
-        }
-
-        protected string BuildQueryParams()
+        private string BuildQueryParams()
         {
-            QueryParameters = QueryParameters.Distinct().ToList();
+            var visitor = new AmoCrmQueryVisitor();
 
-            var prerp = new List<KeyValuePair<string, string>>();
-
-            if (QueryParameters.Where(i => i.Key == "id").Count() > 1)
+            foreach (var exp in this.Expressions)
             {
-                foreach (var m in QueryParameters)
-                {
-                    if (m.Key == "id")
-                    {
-                        prerp.Add(new KeyValuePair<string, string>("id[]", m.Value));
-                    }
-                    else
-                    {
-                        prerp.Add(m);
-                    }
-                }
-                QueryParameters = prerp;
+                Expression turn = visitor.Apply((Expression)exp);
             }
 
-            if (QueryParameters.FirstOrDefault(x => x.Key == "limit_offset").Key != null
-                  & QueryParameters.FirstOrDefault(x => x.Key == "limit_rows").Key == null)
-            {
-                throw new IncorectQueryException("Запрос Offset без установленного Limit");
-            }
+            this.Expressions = new List<Expression>();
 
-            var result = new FormUrlEncodedContent(QueryParameters).ReadAsStringAsync().Result;
-            QueryParameters.Clear();
-
-            return String.IsNullOrEmpty(result) ? "" : "?" + result;
+            return "?" + new FormUrlEncodedContent(visitor.Pairs).ReadAsStringAsync().Result;
         }
     }
 }

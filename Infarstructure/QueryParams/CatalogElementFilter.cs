@@ -1,4 +1,5 @@
 ﻿using LibraryAmoCRM;
+using LibraryAmoCRM.Infarstructure.Attributes;
 using System.Collections.Generic;
 
 namespace LibraryAmoCRM.Infarstructure.QueryParams
@@ -9,25 +10,19 @@ namespace LibraryAmoCRM.Infarstructure.QueryParams
         /// <summary>
         /// Выбор из католога с Id
         /// </summary>
-        public int CatalogId
-        {
-            set => result = new KeyValuePair<string, string>( "catalog_id", value.ToString() );
-        }
+        [QueryParamName("catalog_id")]
+        public int CatalogId { get; set; }
 
         /// <summary>
         /// Выбор элемента по названию
         /// </summary>
-        public string Title
-        {
-            set => result = new KeyValuePair<string, string>( "term", value );
-        }
+        [QueryParamName("term")]
+        public string Title { get; set; }
 
         /// <summary>
         /// Выбор элемента со страницы
         /// </summary>
-        public int Page
-        {
-            set => result = new KeyValuePair<string, string>( "PAGEN_1", value.ToString() );
-        }
+        [QueryParamName("PAGEN_1")]
+        public int Page { get; set; }
     }
 }
