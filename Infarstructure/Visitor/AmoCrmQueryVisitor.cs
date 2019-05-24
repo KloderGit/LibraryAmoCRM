@@ -18,17 +18,48 @@ namespace LibraryAmoCRM.Infarstructure.Visitor
 
         protected override Expression VisitBinary(BinaryExpression node)
         {
+
+            string que ="";
+
             if (node.NodeType == ExpressionType.Equal)
             {
-                var left = (MemberExpression)node.Left;
-                var title = left.Member.GetCustomAttributes(typeof(QueryParamNameAttribute), false).First() as QueryParamNameAttribute;
+                var left = this.Visit(node.Left);
+                var right = this.Visit(node.Right);
 
-                var right = (ConstantExpression)node.Right;
+                que = left + " - " + right;
 
-                Pairs.Add(new KeyValuePair<string, string>(title.Name, right.Value.ToString()));
+                //Pairs.Add(new KeyValuePair<string, string>(left.Value.ToString(), right.Value.ToString()));
             }
 
-            return base.VisitBinary(node);
+            if (node.NodeType == ExpressionType.AndAlso)
+            {
+                var left = this.Visit(node.Left);
+                var right = this.Visit(node.Left);
+
+                que = left + " | " + right;
+            }
+
+            return Expression.Constant(que);
+        }
+
+
+        protected override Expression VisitMember(MemberExpression node)
+        {
+            Expression result = this.Visit(node.Expression);
+
+            if (result.NodeType == ExpressionType.Constant)
+            {
+                var value = ((ConstantExpression)result).Value;
+                result = Expression.Constant(value);
+            }
+
+            if (result.NodeType == ExpressionType.Parameter)
+            {
+                var title = node.Member.GetCustomAttributes(typeof(QueryParamNameAttribute), false).First() as QueryParamNameAttribute;
+                result = Expression.Constant(title.Name);
+            }
+
+            return result;
         }
     }
 }

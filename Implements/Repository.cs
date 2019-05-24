@@ -47,15 +47,15 @@ namespace LibraryAmoCRM.Implements
 
             var response = request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter()).Result;
 
-            var result = response._embedded.items;
+            var result = response?._embedded.items;
 
             return (TResult)result;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            var result = Execute<IEnumerable<T>>();
-
+            var array = Execute<IEnumerable<T>>();
+            var result = array ?? new List<T>();
             return result.GetEnumerator();
         }
 
