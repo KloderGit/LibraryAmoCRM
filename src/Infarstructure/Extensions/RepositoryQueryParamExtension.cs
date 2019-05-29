@@ -12,44 +12,37 @@ namespace LibraryAmoCRM.Infarstructure.Extensions
     {
         public static IQueryableRepository<T> Filter<T,U>(this IQueryableRepository<T> source, Expression<Func<U, bool>> predicate)
         {
-            source.Expressions.Add(predicate);
-            return source;
-        }
-
-        public static IQueryableRepository<LeadDTO> Filter(this IQueryableRepository<LeadDTO> source, Expression<Action<ContactDTO>> predicate)
-        {
-            source.Expressions.Add(predicate);
+            source.CreateQuery(predicate);
             return source;
         }
 
         public static IQueryableRepository<LeadDTO> Filter(this IQueryableRepository<LeadDTO> source, Expression<Func<LeadFilter, bool>> predicate)
         {
-            source.Expressions.Add(predicate);
+            source.CreateQuery(predicate);
             return source;
         }
 
         public static IQueryableRepository<ContactDTO> Filter(this IQueryableRepository<ContactDTO> source, Expression<Func<ContactFilter, bool>> predicate)
         {
             source.CreateQuery(predicate);
-            //source.Expressions.Add(predicate);
             return source;
         }
 
         public static IQueryableRepository<CompanyDTO> Filter(this IQueryableRepository<CompanyDTO> source, Expression<Func<ContactFilter, bool>> predicate)
         {
-            source.Expressions.Add(predicate);
+            source.CreateQuery(predicate);
             return source;
         }
 
         public static IQueryableRepository<TaskDTO> Filter(this IQueryableRepository<TaskDTO> source, Expression<Func<TaskFilter, bool>> predicate)
         {
-            source.Expressions.Add(predicate);
+            source.CreateQuery(predicate);
             return source;
         }
 
         public static IQueryableRepository<NoteDTO> Filter(this IQueryableRepository<NoteDTO> source, Expression<Func<NoteFilter, bool>> predicate)
         {
-            source.Expressions.Add(predicate);
+            source.CreateQuery(predicate);
             return source;
         }
     }

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LibraryAmoCRM\LibraryAmoCRM.csproj" />
+    <ProjectReference Include="..\src\LibraryAmoCRM.csproj" />
   </ItemGroup>
 
 </Project>

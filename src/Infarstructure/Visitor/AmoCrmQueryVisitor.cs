@@ -8,8 +8,6 @@ namespace LibraryAmoCRM.Infarstructure.Visitor
 {
     public class AmoCrmQueryVisitor : ExpressionVisitor
     {
-        public HashSet<KeyValuePair<string, string>> Pairs { get; } = new HashSet<KeyValuePair<string, string>>();
-
         public Expression Apply(Expression expression)
         {
             return Visit(expression);
