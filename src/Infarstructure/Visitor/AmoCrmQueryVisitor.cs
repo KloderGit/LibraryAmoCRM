@@ -33,8 +33,6 @@ namespace LibraryAmoCRM.Infarstructure.Visitor
 
                 Expression call = Expression.Call(method, div, array);
 
-                Pairs.Add(new KeyValuePair<string, string>(left.ToString(), right.ToString()));
-
                 return call;
             }
 

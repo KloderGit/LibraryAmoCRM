@@ -17,11 +17,28 @@ namespace LibraryAmoCRM.Implements
     public class Repository<T>: IQueryableRepository<T>
     {
         IConnection connection = null;
-        public Expression Expression { get; set; } = null;
+        
         public Repository(IConnection connection) => this.connection = connection;
 
+
+
+
+
+        public Task<T> Add(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
+        #region IQueryableRepository implementation
+        // --------------------------------
+
+        public Expression Expression { get; set; } = null;
+
         public IQueryableRepository<T> CreateQuery(Expression expression)
-        {            
+        {
             if (expression is LambdaExpression && Expression != null)
             {
                 var current = ((LambdaExpression)Expression).Body;
@@ -35,14 +52,6 @@ namespace LibraryAmoCRM.Implements
             return this;
         }
 
-
-
-        public Task<T> Add(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public TResult Execute<TResult>()
         {
             var endpoint = connection.GetEndPoint<T>();
@@ -55,6 +64,8 @@ namespace LibraryAmoCRM.Implements
             var response = request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter()).Result;
 
             var result = response?._embedded.items;
+
+            this.Expression = null;
 
             return (TResult)result;
         }
@@ -79,5 +90,7 @@ namespace LibraryAmoCRM.Implements
 
             return func();
         }
+
+        #endregion
     }
 }

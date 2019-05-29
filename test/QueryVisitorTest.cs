@@ -14,7 +14,7 @@ namespace LibraryAmoCRMTests
         {
             Expression<Func<ContactFilter, bool>> exp = x => x.Id == 555;
 
-            var visitor = new AmoCrmQueryVisitor();
+            var visitor = new AmoCrmQueryVisitor(); 
 
             var func = (visitor.Apply(exp) as Expression<Func<string>>).Compile();
 
