@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAmoCRM", "LibraryAmoCRM.csproj", "{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryAmoCRMTests", "..\LibraryAmoCRMTests\LibraryAmoCRMTests.csproj", "{4D37D522-8ADA-4DB8-B191-3436BBFB5449}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAmoCRM", "src\LibraryAmoCRM.csproj", "{4AEEA60C-7919-489E-AD22-C476ABB8064A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5B9AECF-6CEC-4E55-8CF6-CA500E95E8DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D37D522-8ADA-4DB8-B191-3436BBFB5449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D37D522-8ADA-4DB8-B191-3436BBFB5449}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D37D522-8ADA-4DB8-B191-3436BBFB5449}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D37D522-8ADA-4DB8-B191-3436BBFB5449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEEA60C-7919-489E-AD22-C476ABB8064A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AEEA60C-7919-489E-AD22-C476ABB8064A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AEEA60C-7919-489E-AD22-C476ABB8064A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEEA60C-7919-489E-AD22-C476ABB8064A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {57E21C64-040B-40CF-9A8C-F29682749085}
+		SolutionGuid = {724AFE81-AB47-43C1-8DA8-DE04A42A9E35}
 	EndGlobalSection
 EndGlobal

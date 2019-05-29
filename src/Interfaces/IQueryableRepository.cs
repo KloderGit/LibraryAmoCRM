@@ -8,7 +8,7 @@ namespace LibraryAmoCRM.Interfaces
 {
     public interface IQueryableRepository<T> : IRepository<T>, IEnumerable
     {
-        ICollection<Expression> Expressions { get; set; }
+        Expression Expression { get; set; }
         IQueryableRepository<T> CreateQuery(Expression expression);
         TResult Execute<TResult>();
     }

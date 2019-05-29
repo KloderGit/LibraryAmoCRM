@@ -16,15 +16,22 @@ namespace LibraryAmoCRM.Implements
 {
     public class Repository<T>: IQueryableRepository<T>
     {
-        Connection connection = null;
-
-        public Repository(Connection connection) => this.connection = connection;
-
-        public ICollection<Expression> Expressions { get; set; } = new List<Expression>();
+        IConnection connection = null;
+        public Expression Expression { get; set; } = null;
+        public Repository(IConnection connection) => this.connection = connection;
 
         public IQueryableRepository<T> CreateQuery(Expression expression)
-        {
-            Expressions.Add(expression);
+        {            
+            if (expression is LambdaExpression && Expression != null)
+            {
+                var current = ((LambdaExpression)Expression).Body;
+                var additional = ((LambdaExpression)expression).Body;
+                var extend = Expression.AndAlso(current, additional);
+                Expression = Expression.Lambda(extend);
+            }
+
+            if (Expression == null) Expression = expression;
+
             return this;
         }
 
@@ -68,14 +75,9 @@ namespace LibraryAmoCRM.Implements
         {
             var visitor = new AmoCrmQueryVisitor();
 
-            foreach (var exp in this.Expressions)
-            {
-                Expression turn = visitor.Apply((Expression)exp);
-            }
+            var func = (visitor.Apply(Expression) as Expression<Func<string>>).Compile();
 
-            this.Expressions = new List<Expression>();
-
-            return "?" + new FormUrlEncodedContent(visitor.Pairs).ReadAsStringAsync().Result;
+            return func();
         }
     }
 }

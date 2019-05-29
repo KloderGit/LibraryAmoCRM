@@ -1,5 +1,6 @@
 ﻿using LibraryAmoCRM.Configuration;
 using LibraryAmoCRM.Implements;
+using LibraryAmoCRM.Interfaces;
 using LibraryAmoCRM.Models;
 using Serilog;
 using System;
@@ -14,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace LibraryAmoCRM
 {
-    public class Connection
+    public class Connection : IConnection
     {
         AssemblyConfig config;
 
-        public HttpClient Client;
+        public HttpClient Client { get; set; }
         private HttpClientHandler handler = new HttpClientHandler();
 
         ILogger logger;

@@ -30,7 +30,8 @@ namespace LibraryAmoCRM.Infarstructure.Extensions
 
         public static IQueryableRepository<ContactDTO> Filter(this IQueryableRepository<ContactDTO> source, Expression<Func<ContactFilter, bool>> predicate)
         {
-            source.Expressions.Add(predicate);
+            source.CreateQuery(predicate);
+            //source.Expressions.Add(predicate);
             return source;
         }
 
