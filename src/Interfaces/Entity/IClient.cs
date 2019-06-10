@@ -5,10 +5,8 @@ using System.Text;
 
 namespace LibraryAmoCRM.Interfaces.Entity
 {
-    public interface IClient : IElement, IBindTags, IBindCustomFields, IBindLeads
+    public interface IClient : IElement, ISimpleObject, IBindTags, IBindCustomFields, IBindLeads
     {
-        string Name { get; set; }
-
         /// <summary>
         /// Дата ближайшей задачи
         /// </summary>

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace LibraryAmoCRM.Interfaces.Entity
 {
-    public interface ITag : IElement, ISimpleObject
+    public interface ISimpleObject : IEntity
     {
+        string Name { get; set; }
     }
 }

@@ -23,7 +23,6 @@ namespace LibraryAmoCRM.Implements
 
 
 
-
         public Task<T> Add(T item)
         {
             throw new NotImplementedException();
@@ -70,6 +69,19 @@ namespace LibraryAmoCRM.Implements
             return (TResult)result;
         }
 
+        private string BuildQueryParams()
+        {
+            if (Expression == null) return "";
+
+            var visitor = new AmoCrmQueryVisitor();
+
+            var func = (visitor.Apply(Expression) as Expression<Func<string>>).Compile();
+
+            return func();
+        }
+        #endregion
+
+
         public IEnumerator<T> GetEnumerator()
         {
             var array = Execute<IEnumerable<T>>();
@@ -82,15 +94,8 @@ namespace LibraryAmoCRM.Implements
             return GetEnumerator();
         }
 
-        private string BuildQueryParams()
-        {
-            var visitor = new AmoCrmQueryVisitor();
 
-            var func = (visitor.Apply(Expression) as Expression<Func<string>>).Compile();
 
-            return func();
-        }
 
-        #endregion
     }
 }

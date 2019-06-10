@@ -4,7 +4,10 @@ using System.Text;
 
 namespace LibraryAmoCRM.Interfaces.Entity
 {
-    public interface ITag : IElement, ISimpleObject
+    public interface IBelong
     {
+        int ElementId { get; set; }
+
+        int ElementType { get; set; }
     }
 }
