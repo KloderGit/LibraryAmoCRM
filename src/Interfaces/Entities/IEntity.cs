@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace LibraryAmoCRM.Interfaces.Entity
+namespace LibraryAmoCRM.Interfaces
 {
-    public interface IElement : IEntity
+    public interface IEntity : IElement
     {
         int ResponsibleUserId { get; set; }
         int CreatedBy { get; set; }

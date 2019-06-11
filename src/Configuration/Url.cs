@@ -41,7 +41,7 @@ namespace LibraryAmoCRM.Configuration
             urls.Add( typeof( ContactDTO ), new Uri( _baseUrl, "api/v2/contacts" ) );
             urls.Add(typeof(LibraryAmoCRM.DTO.ContactDTO), new Uri(_baseUrl, "api/v2/contacts"));
 
-            urls.Add(typeof(Contact), new Uri(_baseUrl, "api/v2/contacts"));
+            //urls.Add(typeof(Contact), new Uri(_baseUrl, "api/v2/contacts"));
 
             urls.Add( typeof( CompanyDTO ), new Uri( _baseUrl, "api/v2/companies" ) );
             urls.Add(typeof(LibraryAmoCRM.DTO.CompanyDTO), new Uri(_baseUrl, "api/v2/companies"));

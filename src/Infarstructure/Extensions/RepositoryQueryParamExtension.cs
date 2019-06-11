@@ -29,11 +29,11 @@ namespace LibraryAmoCRM.Infarstructure.Extensions
             return source;
         }
 
-        public static IQueryableRepository<Contact> Filter(this IQueryableRepository<Contact> source, Expression<Func<ContactFilter, bool>> predicate)
-        {
-            source.CreateQuery(predicate);
-            return source;
-        }
+        //public static IQueryableRepository<Contact> Filter(this IQueryableRepository<Contact> source, Expression<Func<ContactFilter, bool>> predicate)
+        //{
+        //    source.CreateQuery(predicate);
+        //    return source;
+        //}
 
         public static IQueryableRepository<LibraryAmoCRM.DTO.ContactDTO> Filter(this IQueryableRepository<LibraryAmoCRM.DTO.ContactDTO> source, Expression<Func<ContactFilter, bool>> predicate)
         {

@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace LibraryAmoCRM.Interfaces.Entity
+namespace LibraryAmoCRM.Interfaces
 {
-    public interface ICustomField : IEntity
+    public interface ICustomField : ISimpleObject
     {
-        string Name { get; set; }
-
         string Code { get; set; }
-
-        IEnumerable<ICustomFieldValue> Values { get; set; }
-
         bool IsSystem { get; set; }
+        IEnumerable<ICustomFieldValue> Values { get; set; }
     }
 
     public interface ICustomFieldValue
     {
         string Value { get; set; }
-
         Int32 @Enum { get; set; }
     }
 }

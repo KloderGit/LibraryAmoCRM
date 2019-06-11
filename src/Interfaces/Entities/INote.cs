@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LibraryAmoCRM.Interfaces.Entity
+﻿namespace LibraryAmoCRM.Interfaces
 {
-    public interface INote : IElement, IBelong
+    public interface INote : IEntity, IToDoObject, IBelong
     {
-        string Text { get; set; }
-
         bool IsEditable { get; set; }
 
         string Attachment { get; set; }
