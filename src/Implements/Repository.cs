@@ -1,4 +1,5 @@
-﻿using LibraryAmoCRM.DTO;
+﻿using LibraryAmoCRM.Configuration;
+using LibraryAmoCRM.DTO;
 using LibraryAmoCRM.Infarstructure;
 using LibraryAmoCRM.Infarstructure.Visitor;
 using LibraryAmoCRM.Interfaces;
@@ -17,21 +18,13 @@ namespace LibraryAmoCRM.Implements
     public class Repository<T>: IQueryableRepository<T>
     {
         IConnection connection = null;
-
-        IEnumerable<T> array = new List<T>();
-        
+      
         public Repository(IConnection connection) => this.connection = connection;
-
-
-
 
         public Task<T> Add(T item)
         {
             throw new NotImplementedException();
         }
-
-
-
 
         #region IQueryableRepository implementation
         // --------------------------------
@@ -55,19 +48,17 @@ namespace LibraryAmoCRM.Implements
 
         public TResult Execute<TResult>()
         {
-            var endpoint = connection.GetEndPoint<T>();
-            var query = BuildQueryParams();
-
             connection.Auth(null);
 
+            var endpoint = connection.GetEndPoint<T>();
+            var query = BuildQueryParams();
             var request = connection.Client.GetAsync(endpoint + query).Result;
 
+            var dtoType = MatchingDTO.GetDTOType<T>();
+            var response = request.Content.ReadAsAsync(dtoType, new MediaTypesFormatters().GetHALFormatter()).Result;
 
-            var response = request.Content.ReadAsAsync(typeof(HAL<ContactDTO>), new MediaTypesFormatters().GetHALFormatter()).Result;
-
-            var result = ((HAL<ContactDTO>)response)?._embedded.items;
-
-            //this.array = result;
+            dynamic convert = Convert.ChangeType(response, dtoType);
+            var result = convert?._embedded.items;
 
             this.Expression = null;
 
@@ -86,10 +77,8 @@ namespace LibraryAmoCRM.Implements
         }
         #endregion
 
-
         public IEnumerator<T> GetEnumerator()
         {
-            if (this.array.Count() > 0) return this.array.GetEnumerator();
             var result = Execute<IEnumerable<T>>() ?? new List<T>();
             return result.GetEnumerator();
         }
@@ -98,41 +87,5 @@ namespace LibraryAmoCRM.Implements
         {
             return GetEnumerator();
         }
-
-
-        void GetMethod(HttpResponseMessage httpResponse)
-        {
-            var getMethod = typeof(HttpContentExtensions).GetMethods(BindingFlags.Public);
-            //MethodInfo getMethod = typeof(System.Net.Http.HttpContentExtensions).GetMethod("ReadAsAsync", BindingFlags.Public);
-            //MethodInfo genericGet = getMethod.MakeGenericMethod(new[] { typeof(HAL<ContactDTO>) });
-
-
-            //    return (T)genericGet.Invoke(Context, new object[] { id });
-            //methodInfo = methodInfo.MakeGenericMethod(typs);
-
-            //var parameters = methodInfo.GetParameters();
-        }
-
-        public MethodInfo GetMethodWithLinq(Type staticType, string methodName,
-    params Type[] paramTypes)
-        {
-            var methods = from method in staticType.GetMethods()
-                          where method.Name == methodName
-                                && method.GetParameters()
-                                         .Select(parameter => parameter.ParameterType)
-                                         .Select(type => type.IsGenericType ?
-                                             type.GetGenericTypeDefinition() : type)
-                                         .SequenceEqual(paramTypes)
-                          select method;
-            try
-            {
-                return methods.SingleOrDefault();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new AmbiguousMatchException();
-            }
-        }
-
     }
 }
