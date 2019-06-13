@@ -1,14 +1,8 @@
-using LibraryAmoCRM;
-using LibraryAmoCRM.Implements;
 using LibraryAmoCRM.Infarstructure.QueryParams;
 using LibraryAmoCRM.Infarstructure.Visitor;
-using LibraryAmoCRM.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq.Expressions;
-using LibraryAmoCRM.Infarstructure.Extensions;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace LibraryAmoCRMTests
 {
@@ -65,17 +59,6 @@ namespace LibraryAmoCRMTests
             var result = func();
 
             Assert.AreEqual(result, "?id[]=555&limit_rows=333&query=85559998448");
-        }
-
-        [TestMethod]
-        public void NewModel()
-        {
-            var conn = new Connection("apfitness", "kloder@fitness-pro.ru", "99aad176302f7ea9213c307e1e6ab8fc");
-            var repo = new Repository<LibraryAmoCRM.DTO.ContactDTO>(conn);
-
-            var ddd = repo.Filter<LibraryAmoCRM.DTO.ContactDTO, ContactFilter>(x => x.Query == "9031453412");
-
-            var llll = ddd.Execute<IEnumerable<LibraryAmoCRM.DTO.ContactDTO>>().FirstOrDefault();
         }
     }
 }

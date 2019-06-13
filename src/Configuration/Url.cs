@@ -38,13 +38,15 @@ namespace LibraryAmoCRM.Configuration
             urls.Add( typeof( LeadDTO ), new Uri( _baseUrl, "api/v2/leads" ) );
             urls.Add(typeof(LibraryAmoCRM.DTO.LeadDTO), new Uri(_baseUrl, "api/v2/leads"));
 
-            urls.Add( typeof( ContactDTO ), new Uri( _baseUrl, "api/v2/contacts" ) );
+            urls.Add( typeof( ContactDTO1 ), new Uri( _baseUrl, "api/v2/contacts" ) );
             urls.Add(typeof(LibraryAmoCRM.DTO.ContactDTO), new Uri(_baseUrl, "api/v2/contacts"));
+            urls.Add(typeof(Contact), new Uri(_baseUrl, "api/v2/contacts"));
 
             //urls.Add(typeof(Contact), new Uri(_baseUrl, "api/v2/contacts"));
 
             urls.Add( typeof( CompanyDTO ), new Uri( _baseUrl, "api/v2/companies" ) );
             urls.Add(typeof(LibraryAmoCRM.DTO.CompanyDTO), new Uri(_baseUrl, "api/v2/companies"));
+
 
             urls.Add( typeof( CatalogDTO ), new Uri( _baseUrl, "api/v2/catalog_elements" ) );
 

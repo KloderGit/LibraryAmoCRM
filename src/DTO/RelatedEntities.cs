@@ -2,7 +2,7 @@
 
 namespace LibraryAmoCRM.DTO
 {
-    public class RelatedEntities
+    internal class RelatedEntities
     {
         public IEnumerable<int> id { get; set; }
     }

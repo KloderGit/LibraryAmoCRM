@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LibraryAmoCRM.DTO
 {
-    public class CompanyDTO : EntityDTO
+    internal class CompanyDTO : EntityDTO
     {
         public int responsible_user_id { get; set; }
         public int created_by { get; set; }

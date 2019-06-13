@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibraryAmoCRM.DTO
 {
-    public class NoteDTO : IntentDTO
+    internal class NoteDTO : IntentDTO
     {
         public int responsible_user_id { get; set; }
         public int created_by { get; set; }

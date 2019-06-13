@@ -5,7 +5,7 @@ using System;
 
 namespace LibraryAmoCRM.Models
 {
-    public class ContactDTO : BasicMemberEntity
+    public class ContactDTO1 : BasicMemberEntity
     {
         [JsonProperty(PropertyName = "updated_by")]
         public int? UpdatedBy { get; set; }

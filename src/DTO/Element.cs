@@ -1,6 +1,6 @@
 ﻿namespace LibraryAmoCRM.DTO
 {
-    public class Element
+    internal class Element
     {
         public int id { get; set; }
     }

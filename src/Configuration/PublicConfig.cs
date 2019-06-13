@@ -5,11 +5,11 @@ using System.Text;
 
 namespace LibraryAmoCRM.Configuration
 {
-    public class PublicConfig
+    internal class PublicConfig
     {
-        public static Dictionary<string, Type> TypeForEvent { get; set; } = new Dictionary<string, Type> {
+        internal static Dictionary<string, Type> TypeForEvent { get; set; } = new Dictionary<string, Type> {
             { "lead", typeof(LeadDTO) },
-            { "contact", typeof(ContactDTO) },
+            { "contact", typeof(ContactDTO1) },
             { "company", typeof(CompanyDTO) },
             { "tasks", typeof(TaskDTO) }
         };

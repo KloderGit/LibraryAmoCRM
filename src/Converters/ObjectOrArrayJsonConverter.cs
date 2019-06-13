@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LibraryAmoCRM.Converters
 {
-    public class ObjectOrArrayJsonConverter<T> : JsonConverter where T : Element
+    internal class ObjectOrArrayJsonConverter<T> : JsonConverter where T : Element
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

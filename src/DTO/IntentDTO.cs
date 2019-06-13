@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibraryAmoCRM.DTO
 {
-    public class IntentDTO : Element
+    internal class IntentDTO : Element
     {
         public string text { get; set; }
     }

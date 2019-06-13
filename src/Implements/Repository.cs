@@ -1,12 +1,15 @@
-﻿using LibraryAmoCRM.Infarstructure;
+﻿using LibraryAmoCRM.DTO;
+using LibraryAmoCRM.Infarstructure;
 using LibraryAmoCRM.Infarstructure.Visitor;
 using LibraryAmoCRM.Interfaces;
 using LibraryAmoCRM.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LibraryAmoCRM.Implements
@@ -14,6 +17,8 @@ namespace LibraryAmoCRM.Implements
     public class Repository<T>: IQueryableRepository<T>
     {
         IConnection connection = null;
+
+        IEnumerable<T> array = new List<T>();
         
         public Repository(IConnection connection) => this.connection = connection;
 
@@ -57,9 +62,12 @@ namespace LibraryAmoCRM.Implements
 
             var request = connection.Client.GetAsync(endpoint + query).Result;
 
-            var response = request.Content.ReadAsAsync<HAL<T>>(new MediaTypesFormatters().GetHALFormatter()).Result;
 
-            var result = response?._embedded.items;
+            var response = request.Content.ReadAsAsync(typeof(HAL<ContactDTO>), new MediaTypesFormatters().GetHALFormatter()).Result;
+
+            var result = ((HAL<ContactDTO>)response)?._embedded.items;
+
+            //this.array = result;
 
             this.Expression = null;
 
@@ -81,8 +89,8 @@ namespace LibraryAmoCRM.Implements
 
         public IEnumerator<T> GetEnumerator()
         {
-            var array = Execute<IEnumerable<T>>();
-            var result = array ?? new List<T>();
+            if (this.array.Count() > 0) return this.array.GetEnumerator();
+            var result = Execute<IEnumerable<T>>() ?? new List<T>();
             return result.GetEnumerator();
         }
 
@@ -92,7 +100,39 @@ namespace LibraryAmoCRM.Implements
         }
 
 
+        void GetMethod(HttpResponseMessage httpResponse)
+        {
+            var getMethod = typeof(HttpContentExtensions).GetMethods(BindingFlags.Public);
+            //MethodInfo getMethod = typeof(System.Net.Http.HttpContentExtensions).GetMethod("ReadAsAsync", BindingFlags.Public);
+            //MethodInfo genericGet = getMethod.MakeGenericMethod(new[] { typeof(HAL<ContactDTO>) });
 
+
+            //    return (T)genericGet.Invoke(Context, new object[] { id });
+            //methodInfo = methodInfo.MakeGenericMethod(typs);
+
+            //var parameters = methodInfo.GetParameters();
+        }
+
+        public MethodInfo GetMethodWithLinq(Type staticType, string methodName,
+    params Type[] paramTypes)
+        {
+            var methods = from method in staticType.GetMethods()
+                          where method.Name == methodName
+                                && method.GetParameters()
+                                         .Select(parameter => parameter.ParameterType)
+                                         .Select(type => type.IsGenericType ?
+                                             type.GetGenericTypeDefinition() : type)
+                                         .SequenceEqual(paramTypes)
+                          select method;
+            try
+            {
+                return methods.SingleOrDefault();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new AmbiguousMatchException();
+            }
+        }
 
     }
 }
