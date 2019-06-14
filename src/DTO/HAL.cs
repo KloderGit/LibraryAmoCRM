@@ -4,13 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LibraryAmoCRM.Models
+namespace LibraryAmoCRM.DTO
 {
 
     public class HALSelf
     {
-        [JsonProperty("_links")]
-        public Links Links { get; set; }
+        public Links _links { get; set; }
     }
 
     public partial class AccountEmbedded
@@ -59,16 +58,12 @@ namespace LibraryAmoCRM.Models
 
     public partial class Links
     {
-        [JsonProperty("self")]
-        public Self Self { get; set; }
+        public Self self { get; set; }
     }
 
     public partial class Self
     {
-        [JsonProperty("href")]
-        public string Href { get; set; }
-
-        [JsonProperty("method")]
-        public string Method { get; set; }
+        public string href { get; set; }
+        public string method { get; set; }
     }
 }

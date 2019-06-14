@@ -29,11 +29,11 @@ namespace LibraryAmoCRM.Infarstructure.Extensions
         //    return source;
         //}
 
-        ////public static IQueryableRepository<Contact> Filter(this IQueryableRepository<Contact> source, Expression<Func<ContactFilter, bool>> predicate)
-        ////{
-        ////    source.CreateQuery(predicate);
-        ////    return source;
-        ////}
+        public static IQueryableRepository<Contact> Filter(this IQueryableRepository<Contact> source, Expression<Func<ContactFilter, bool>> predicate)
+        {
+            source.CreateQuery(predicate);
+            return source;
+        }
 
         //public static IQueryableRepository<LibraryAmoCRM.DTO.ContactDTO> Filter(this IQueryableRepository<LibraryAmoCRM.DTO.ContactDTO> source, Expression<Func<ContactFilter, bool>> predicate)
         //{
@@ -41,10 +41,12 @@ namespace LibraryAmoCRM.Infarstructure.Extensions
         //    return source;
         //}
 
-        //public static IEnumerable<LibraryAmoCRM.DTO.ContactDTO> Result(this IQueryableRepository<LibraryAmoCRM.DTO.ContactDTO> source)
-        //{
-        //    return source.Execute<IEnumerable<LibraryAmoCRM.DTO.ContactDTO>>();
-        //}
+        public static IEnumerable<Contact> Result(this IQueryableRepository<Contact> source)
+        {
+            var res = source.Execute<IEnumerable<LibraryAmoCRM.DTO.ContactDTO>>();
+
+            return new List<Contact>();
+        }
 
 
         //public static IQueryableRepository<CompanyDTO> Filter(this IQueryableRepository<CompanyDTO> source, Expression<Func<ContactFilter, bool>> predicate)

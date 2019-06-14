@@ -1,4 +1,5 @@
 ﻿using LibraryAmoCRM;
+using LibraryAmoCRM.DTO;
 using LibraryAmoCRM.Implements;
 using LibraryAmoCRM.Infarstructure.Extensions;
 using LibraryAmoCRM.Infarstructure.QueryParams;
@@ -30,7 +31,7 @@ namespace LibraryAmoCRMTests
 
             var ttt = resit.Filter<Contact, ContactFilter>(x => x.Query == "9031453412");
 
-            ttt.Execute<Contact>();
+            var dfg = ttt.Execute<IEnumerable<ContactDTO>>();
 
             //    var sdgf = ttt.Execute<IEnumerable<ContactDTO>>();
         }
