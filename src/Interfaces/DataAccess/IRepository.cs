@@ -1,13 +1,9 @@
-﻿using LibraryAmoCRM.Implements;
-using LibraryAmoCRM.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections;
 using System.Threading.Tasks;
 
 namespace LibraryAmoCRM.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> : IQueryableRepository<T>, IEnumerable
     {
         Task<T> Add(T item);
     }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace LibraryAmoCRM.Infarstructure.JsonConverters
+namespace LibraryAmoCRM.Misc
 {
     internal class ChangeNameContractResolver : DefaultContractResolver
     {
@@ -25,7 +25,8 @@ namespace LibraryAmoCRM.Infarstructure.JsonConverters
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
-            if (_useJsonPropertyName) {
+            if (_useJsonPropertyName)
+            {
                 property.PropertyName = names.ContainsKey(property.PropertyName) ? names[property.PropertyName] : property.PropertyName;
             }
 
@@ -33,4 +34,3 @@ namespace LibraryAmoCRM.Infarstructure.JsonConverters
         }
     }
 }
-

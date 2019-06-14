@@ -9,14 +9,14 @@ namespace LibraryAmoCRM.Interfaces
 {
     public interface IDataManager
     {
-        Account Account { get; set; }
+        //Account Account { get; set; }
 
-        IRepository<LeadDTO> Leads { get;}
-        //IRepository<ContactDTO> Contacts { get; }
-        IRepository<CompanyDTO> Companies { get; }
-        IRepository<TaskDTO> Tasks { get; }
-        IRepository<NoteDTO> Notes { get; }
-        IRepository<CatalogDTO> Catalogs { get; }
-        FieldsRepository Fields { get; }
+        //IRepository<Lead> Leads { get;}
+        IRepository<Contact> Contacts { get; }
+        //IRepository<Company> Companies { get; }
+        //IRepository<Task> Tasks { get; }
+        //IRepository<Note> Notes { get; }
+        //IRepository<Catalog> Catalogs { get; }
+        //FieldsRepository Fields { get; }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LibraryAmoCRM.Interfaces
 {
-    public interface IQueryableRepository<T> : IRepository<T>, IEnumerable
+    public interface IQueryableRepository<T>
     {
         Expression Expression { get; set; }
         IQueryableRepository<T> CreateQuery(Expression expression);

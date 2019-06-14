@@ -1,21 +1,18 @@
 ﻿using LibraryAmoCRM.Configuration;
-using LibraryAmoCRM.DTO;
 using LibraryAmoCRM.Infarstructure;
 using LibraryAmoCRM.Infarstructure.Visitor;
 using LibraryAmoCRM.Interfaces;
-using LibraryAmoCRM.Models;
+using LibraryAmoCRM.Misc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 
-namespace LibraryAmoCRM.Implements
+namespace LibraryAmoCRM
 {
-    public class Repository<T>: IQueryableRepository<T>
+    public class Repository<T>: IRepository<T> where T : IEntity
     {
         IConnection connection = null;
       
@@ -27,7 +24,6 @@ namespace LibraryAmoCRM.Implements
         }
 
         #region IQueryableRepository implementation
-        // --------------------------------
 
         public Expression Expression { get; set; } = null;
 
@@ -77,6 +73,7 @@ namespace LibraryAmoCRM.Implements
         }
         #endregion
 
+        #region IEnumerable implementation
         public IEnumerator<T> GetEnumerator()
         {
             var result = Execute<IEnumerable<T>>() ?? new List<T>();
@@ -87,5 +84,6 @@ namespace LibraryAmoCRM.Implements
         {
             return GetEnumerator();
         }
+        #endregion
     }
 }
