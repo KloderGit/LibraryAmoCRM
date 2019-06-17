@@ -7,20 +7,22 @@ namespace LibraryAmoCRM.Models
 {
     public class Contact : IContact
     {
-        public DateTime ClosestTaskAt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int UpdatedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<int> Leads { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<int> Customers { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int ResponsibleUserId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int CreatedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DateTime CreatedAt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DateTime UpdatedAt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int AccountId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int GroupId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<ICustomField> CustomFields { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<ISimpleObject> Tags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ISimpleObject Company { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Id { get; set; }
+
+
+        public DateTime ClosestTaskAt { get; set; }
+        public int UpdatedBy { get; set; }
+        public IEnumerable<int> Leads { get; set; }
+        public IEnumerable<int> Customers { get; set; }
+        public int ResponsibleUserId { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public int AccountId { get; set; }
+        public int GroupId { get; set; }
+        public string Name { get; set; }
+        public IEnumerable<ICustomField> CustomFields { get; set; }
+        public IEnumerable<ISimpleObject> Tags { get; set; }
+        public ISimpleObject Company { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using LibraryAmoCRM.Models;
+﻿using LibraryAmoCRM.DTO;
+using LibraryAmoCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace LibraryAmoCRM.Configuration
     {
         internal static Dictionary<string, Type> TypeForEvent { get; set; } = new Dictionary<string, Type> {
             { "lead", typeof(LeadDTO) },
-            { "contact", typeof(ContactDTO1) },
+            { "contact", typeof(ContactDTO) },
             { "company", typeof(CompanyDTO) },
             { "tasks", typeof(TaskDTO) }
         };
