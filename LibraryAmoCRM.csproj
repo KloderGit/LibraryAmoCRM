@@ -6,8 +6,14 @@
 
   <ItemGroup>
     <Compile Remove="Infarstructure\Mapster\**" />
+    <Compile Remove="src\**" />
+    <Compile Remove="test\**" />
     <EmbeddedResource Remove="Infarstructure\Mapster\**" />
+    <EmbeddedResource Remove="src\**" />
+    <EmbeddedResource Remove="test\**" />
     <None Remove="Infarstructure\Mapster\**" />
+    <None Remove="src\**" />
+    <None Remove="test\**" />
   </ItemGroup>
 
   <ItemGroup>
