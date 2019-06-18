@@ -23,7 +23,7 @@ namespace LibraryAmoCRM.DTO
         public Element main_contact { get; set; }
         [JsonConverter(typeof(ObjectOrArrayJsonConverter<EntityDTO>))] public IEnumerable<EntityDTO> tags { get; set; }
         [JsonConverter(typeof(SimpleObjectJsonConverter<EntityDTO>))] public EntityDTO company { get; set; }
-        [JsonConverter(typeof(ObjectOrArrayJsonConverter<CustomField>))] public IEnumerable<CustomField> custom_fields { get; set; }
+        [JsonConverter(typeof(ObjectOrArrayJsonConverter<CustomFieldDTO>))] public IEnumerable<CustomFieldDTO> custom_fields { get; set; }
         [JsonConverter(typeof(ObjectIDToArrayJsonConverter))] public IEnumerable<int> contacts { get; set; }
     }
 }

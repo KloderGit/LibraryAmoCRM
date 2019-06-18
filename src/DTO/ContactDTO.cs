@@ -18,6 +18,6 @@ namespace LibraryAmoCRM.DTO
         [JsonConverter(typeof(ObjectIDToArrayJsonConverter))] public IEnumerable<int> leads { get; set; }
         [JsonConverter(typeof(SimpleObjectJsonConverter<EntityDTO>))] public EntityDTO company { get; set; }
         [JsonConverter(typeof(ObjectIDToArrayJsonConverter))] public IEnumerable<int> customers { get; set; }
-        [JsonConverter(typeof(ObjectOrArrayJsonConverter<CustomField>))] public IEnumerable<CustomField> custom_fields { get; set; }
+        [JsonConverter(typeof(ObjectOrArrayJsonConverter<CustomFieldDTO>))] public IEnumerable<CustomFieldDTO> custom_fields { get; set; }
     }
 }

@@ -5,9 +5,10 @@ using System.Text;
 
 namespace LibraryAmoCRM.Models
 {
-    public class Contact : IContact
+    public class Company : ICompany
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public DateTime ClosestTaskAt { get; set; }
         public int UpdatedBy { get; set; }
         public IEnumerable<int> Leads { get; set; }
@@ -18,9 +19,8 @@ namespace LibraryAmoCRM.Models
         public DateTime UpdatedAt { get; set; }
         public int AccountId { get; set; }
         public int GroupId { get; set; }
-        public string Name { get; set; }
         public IEnumerable<ICustomField> CustomFields { get; set; }
         public IEnumerable<ISimpleObject> Tags { get; set; }
-        public ISimpleObject Company { get; set; }
+        public IEnumerable<int> Contacts { get; set; }
     }
 }

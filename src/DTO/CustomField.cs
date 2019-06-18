@@ -2,14 +2,14 @@
 
 namespace LibraryAmoCRM.DTO
 {
-    internal class CustomField : EntityDTO
+    internal class CustomFieldDTO : EntityDTO
     {
         public string code { get; set; }
         public bool is_system { get; set; }
-        public IEnumerable<CustomFieldValue> values { get; set; }
+        public IEnumerable<CustomFieldValueDTO> values { get; set; }
     }
 
-    internal class CustomFieldValue
+    internal class CustomFieldValueDTO
     {
         public string value { get; set; }
         public string @enum { get; set; }

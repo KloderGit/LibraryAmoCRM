@@ -16,7 +16,7 @@ namespace LibraryAmoCRM.DTO
         public int updated_by { get; set; }
         [JsonConverter(typeof(ObjectOrArrayJsonConverter<EntityDTO>))] public IEnumerable<EntityDTO> tags { get; set; }
         [JsonConverter(typeof(ObjectIDToArrayJsonConverter))] public IEnumerable<int> leads { get; set; }
-        [JsonConverter(typeof(ObjectOrArrayJsonConverter<CustomField>))] public IEnumerable<CustomField> custom_fields { get; set; }
+        [JsonConverter(typeof(ObjectOrArrayJsonConverter<CustomFieldDTO>))] public IEnumerable<CustomFieldDTO> custom_fields { get; set; }
         [JsonConverter(typeof(ObjectIDToArrayJsonConverter))] public IEnumerable<int> contacts { get; set; }
         [JsonConverter(typeof(ObjectIDToArrayJsonConverter))] public IEnumerable<int> customers { get; set; }
     }
