@@ -17,5 +17,12 @@ namespace LibraryAmoCRM.DTO
         public int element_type { get; set; }
         public string attachment { get; set; }
         public int note_type { get; set; }
+        public NoteParamsDTO @params { get; set; }
+    }
+
+    internal class NoteParamsDTO
+    {
+        public string text { get; set; }
+        public string service { get; set; }
     }
 }

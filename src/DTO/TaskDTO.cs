@@ -17,7 +17,7 @@ namespace LibraryAmoCRM.DTO
         public bool is_completed { get; set; }
         public uint complete_till_at { get; set; }
         public int duration { get; set; }
-        public IntentDTO Result { get; set; }
+        public IntentDTO result { get; set; }
         public int task_type { get; set; }
     }
 }

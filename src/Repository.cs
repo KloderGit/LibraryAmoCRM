@@ -3,6 +3,7 @@ using LibraryAmoCRM.Infarstructure;
 using LibraryAmoCRM.Infarstructure.Visitor;
 using LibraryAmoCRM.Interfaces;
 using LibraryAmoCRM.Misc;
+using LibraryAmoCRM.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,13 +52,14 @@ namespace LibraryAmoCRM
             var request = connection.Client.GetAsync(endpoint + query).Result;
 
             var dtoType = MatchingDTO.GetDTOType<T>();
+            
             var response = request.Content.ReadAsAsync(dtoType, new MediaTypesFormatters().GetHALFormatter()).Result;
 
             dynamic convert = Convert.ChangeType(response, dtoType);
             var result = convert?._embedded.items;
 
             this.Expression = null;
-
+            
             return (TResult)result;
         }
 

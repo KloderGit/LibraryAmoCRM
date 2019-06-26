@@ -11,7 +11,8 @@ namespace LibraryAmoCRM.Converters
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            IEnumerable<string> result = ((RelatedEntities)value).id.Select(y => y.ToString());
+            var array = ((IEnumerable<int>)value).ToList<int>(); ;
+            var result = new RelatedEntities{ id = array };
 
             serializer.Serialize(writer, result);
         }

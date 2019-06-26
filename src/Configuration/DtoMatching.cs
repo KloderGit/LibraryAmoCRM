@@ -10,7 +10,11 @@ namespace LibraryAmoCRM.Configuration
     {
         private static readonly Dictionary<Type, Type> dto = new Dictionary<Type, Type>()
         {
-            { typeof(Contact), typeof(HAL<ContactDTO>) }
+            { typeof(Contact), typeof(HAL<ContactDTO>) },
+            { typeof(Company), typeof(HAL<CompanyDTO>) },
+            { typeof(Note), typeof(HAL<NoteDTO>) },
+            { typeof(Task), typeof(HAL<TaskDTO>) },
+            { typeof(Lead), typeof(HAL<LeadDTO>) }
         };
 
 

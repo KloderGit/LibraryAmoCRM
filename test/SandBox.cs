@@ -26,8 +26,8 @@ namespace LibraryAmoCRMTests
 
             //var rrr = dfg.First();
 
-            var comdto = new CommonMapping();
-            var adapt = new ContactMapping();
+            new CommonMapping();
+            new ContactMapping();
 
             var conta = new Contact {
                 Id = 234,
