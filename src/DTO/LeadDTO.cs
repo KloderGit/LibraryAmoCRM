@@ -13,7 +13,7 @@ namespace LibraryAmoCRM.DTO
         public int account_id { get; set; }
         public int group_id { get; set; }
         public uint closest_task_at { get; set; }
-        public bool is_deleted { get; set; }
+        public bool? is_deleted { get; set; }
         public int pipeline_id { get; set; }
         public uint closed_at { get; set; }
         public int status_id { get; set; }

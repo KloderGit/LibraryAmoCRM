@@ -14,7 +14,7 @@ namespace LibraryAmoCRM.DTO
         public int group_id { get; set; }
         public int element_id { get; set; }
         public int element_type { get; set; }
-        public bool is_completed { get; set; }
+        public bool? is_completed { get; set; }
         public uint complete_till_at { get; set; }
         public int duration { get; set; }
         public IntentDTO result { get; set; }

@@ -7,7 +7,7 @@ namespace LibraryAmoCRM.DTO
     internal class CustomFieldDTO : EntityDTO
     {
         public string code { get; set; }
-        public bool is_system { get; set; }
+        public bool? is_system { get; set; }
         public IEnumerable<CustomFieldValueDTO> values { get; set; }
     }
 

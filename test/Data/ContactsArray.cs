@@ -1,4 +1,5 @@
-﻿using LibraryAmoCRM.Models;
+﻿using LibraryAmoCRM.DTO;
+using LibraryAmoCRM.Models;
 using System;
 using System.Collections.Generic;
 
@@ -6,122 +7,237 @@ namespace LibraryAmoCRMTests
 {
     public static class ContactsArray
     {
-        public static IEnumerable<Contact> GetContacts()
+        internal static IEnumerable<ContactDTO> Get()
         {
-
-            IEnumerable<Contact> contacts = new List<Contact>
+            IEnumerable<ContactDTO> contacts = new List<ContactDTO>
             {
-                new Contact
-                {
-                    Id = 29127849,
-                    AccountId = 17769199,
-                    ClosestTaskAt = DateTime.MinValue,
-                    CreatedAt = new DateTime(2015, 6, 20),
-                    CreatedBy = 2997712,
-                    GroupId = 212704,
-                    ResponsibleUserId = 2997712,
-                    UpdatedBy = 2079718,
-                    Name = "Иджян Илья",
-                    UpdatedAt = new DateTime(2017, 3, 15),
-                    Company = new SimpleObject { Id = 18029551, Name = "ООО \"Фитнес Смайл\"" },
-                    Leads = new List<int> { 12927239, 888888 },
-                    Tags = new List<SimpleObject> { new SimpleObject { Id = 246241, Name = "new tag" }, new SimpleObject { Id = 247981, Name = "Акция" } },
-                    CustomFields = new List<CustomField> {
-                            new CustomField {
-                                Id = 72337,
-                                Name ="Город",
-                                IsSystem = false,
-                                Values = new List<CustomFieldValue>{ new CustomFieldValue {Value = "Москва" } }
+                new ContactDTO{
+                    id = 29127849,
+                    name = "Иджян Илья",
+                    responsible_user_id = 2997712,
+                    created_by = 2997712,
+                    created_at = 1549370109,
+                    updated_at = 1561730057,
+                    account_id = 17769199,
+                    updated_by = 2079718,
+                    group_id = 212704,
+                    company = new EntityDTO{ id = 33478747, name = "(АНО) «Учебно-методический центр «Профессионалы фитнеса»" },
+                    leads = new List<int> { 12927239, 16238885, 16239863 },
+                    closest_task_at = 0,
+                    tags = new List<EntityDTO>{
+                        new EntityDTO { id = 246241, name = "new tag" },
+                        new EntityDTO { id = 247981, name = "Акция" },
+                    },
+                    custom_fields = new List<CustomFieldDTO>{
+                        new CustomFieldDTO{
+                            id = 72337,
+                            name = "Город",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ value = "Москва" }
                             },
-                            new CustomField {
-                                Id = 571611,
-                                Name ="Guid",
-                                IsSystem = false,
-                                Values = new List<CustomFieldValue>{ new CustomFieldValue {Value = "c41cb2da-8977-11e6-8102-10c37b94684b" } }
-                            },
-                            new CustomField {
-                                Id = 54669,
-                                Name ="Email",
-                                Code = "EMAIL",
-                                IsSystem = true,
-                                Values = new List<CustomFieldValue>{ new CustomFieldValue { Enum = 114619, Value = "kloder3@gmail.com" } }
-                            },
-                            new CustomField {
-                                Id = 54667,
-                                Name ="Телефон",
-                                Code = "PHONE",
-                                IsSystem = true,
-                                Values = new List<CustomFieldValue>{ new CustomFieldValue { Enum = 114607, Value = "89031453412" } }
-                            }
+                            is_system = false
                         },
-                    Customers = new List<int> { 321, 654, 987 }
-                },
-                new Contact
-                {
-                    Id = 24619689,
-                    AccountId = 17769199,
-                    ClosestTaskAt = new DateTime(2016, 4, 10),
-                    CreatedAt = new DateTime(2015, 8, 3),
-                    CreatedBy = 2079718,
-                    GroupId = 212704,
-                    ResponsibleUserId = 2079718,
-                    UpdatedBy = 2079718,
-                    Name = "Стуков Валериан",
-                    UpdatedAt = new DateTime(2017, 10, 1),
-                    CustomFields = new List<CustomField> {
-                            new CustomField {
-                                Id = 54667,
-                                Name ="Телефон",
-                                Code = "PHONE",
-                                IsSystem = true,
-                                Values = new List<CustomFieldValue>{ new CustomFieldValue { Enum = 114607, Value = "4985557878" } }
+                        new CustomFieldDTO{
+                            id = 571611,
+                            name = "Guid",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ value = "c41cb2da-8977-11e6-8102-10c37b94684b" }
                             },
-                            new CustomField {
-                                Id = 565515,
-                                Name ="Дата рождения",
-                                IsSystem = false,
-                                Values = new List<CustomFieldValue>{ new CustomFieldValue {Value = "2018-08-30 00:00:00" } }
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 54669,
+                            name = "Email",
+                            code = "EMAIL",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ @enum = 114619, value = "kloder3@gmail.com" }
                             },
-                            new CustomField {
-                                Id = 548465,
-                                Name ="Откуда узнал о FPA",
-                                IsSystem = false,
-                                Values = new List<CustomFieldValue>{
-                                    new CustomFieldValue { Enum = 1143911, Value = "По рекомендации" },
-                                    new CustomFieldValue { Enum = 1143915, Value = "Из рекламы" },
-                                    new CustomFieldValue { Enum = 1143919, Value = "Другое" }
-                                }
-                            }
+                            is_system = true
+                        },
+                        new CustomFieldDTO{
+                            id = 54665,
+                            name = "Должность",
+                            code = "POSITION",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ value = "разработчик" }
+                            },
+                            is_system = true
+                        },
+                        new CustomFieldDTO{
+                            id = 54673,
+                            name = "Мгн. сообщения",
+                            code = "IM",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ @enum = 114625, value = "kloder1" }
+                            },
+                            is_system = true
+                        },
+                        new CustomFieldDTO{
+                            id = 565515,
+                            name = "Дата рождения",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ value = "1978-02-02 00:00:00" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565517,
+                            name = "Образование",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ value = "Высшее" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565519,
+                            name = "Опыт занятия спортом",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ value = "5 лет" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565521,
+                            name = "№ подгруппы (по желанию)",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ value = "3" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565525,
+                            name = "Место жительства",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ value = "Москва" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 548465,
+                            name = "Откуда узнал о FPA",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ @enum = 1143911, value = "По рекомендации" },
+                                new CustomFieldValueDTO{ @enum = 1143913, value = "От знакомых" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 54667,
+                            name = "Телефон",
+                            code = "PHONE",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO{ @enum = 114607, value = "79031453412" }
+                            },
+                            is_system = true
                         }
+                    }
                 },
-                new Contact
-                {
-                    Id = 27074731,
-                    AccountId = 17769199,
-                    ClosestTaskAt = DateTime.MinValue,
-                    CreatedAt = new DateTime(2015, 9, 8),
-                    CreatedBy = 0,
-                    GroupId = 212704,
-                    ResponsibleUserId = 2079676,
-                    UpdatedBy = 2079676,
-                    Name = "ТЕстовое Фл",
-                    UpdatedAt = new DateTime(2017, 5, 2),
-                    CustomFields = new List<CustomField> {
-                            new CustomField {
-                                Id = 54667,
-                                Name ="Телефон",
-                                Code = "PHONE",
-                                IsSystem = true,
-                                Values = new List<CustomFieldValue>{ new CustomFieldValue { Enum = 114607, Value = "4985557878" } }
+                new ContactDTO{
+                    id = 28479927,
+                    name = "Мила Маминова",
+                    responsible_user_id = 2079718,
+                    created_by = 2079718,
+                    created_at = 1547107558,
+                    updated_at = 1561730121,
+                    account_id = 17769199,
+                    updated_by = 2079718,
+                    group_id = 212704,
+                    company = new EntityDTO { id = 33478747, name = "(АНО) «Учебно-методический центр «Профессионалы фитнеса»" },
+                    leads = new List<int> { 12439903, 13450021, 13483921, 15935173 },
+                    closest_task_at = 0,
+                    custom_fields = new List<CustomFieldDTO>{
+                        new CustomFieldDTO{
+                            id = 571611,
+                            name = "Guid",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { value = "ce6b2cef-7536-11e8-80fc-0cc47a4b75cc" }
                             },
-                            new CustomField {
-                                Id = 54669,
-                                Name ="Email",
-                                Code = "EMAIL",
-                                IsSystem = true,
-                                Values = new List<CustomFieldValue>{ new CustomFieldValue { Enum = 114619, Value = "site7@test.ru" } }
-                            }
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 72337,
+                            name = "Город",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { value = "Москва" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565515,
+                            name = "Дата рождения",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { value = "1994-02-07 00:00:00" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565525,
+                            name = "Место жительства",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { value = "Нет" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565517,
+                            name = "Образование",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { value = "Было" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565519,
+                            name = "Опыт занятия спортом",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { value = "Нет" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 565521,
+                            name = "№ подгруппы (по желанию)",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { value = "2" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 587661,
+                            name = "Instagram",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { value = "https://www.instagram.com/mila_molodec/" }
+                            },
+                            is_system = false
+                        },
+                        new CustomFieldDTO{
+                            id = 54669,
+                            name = "Email",
+                            code = "EMAIL",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { @enum = 114619, value = "mila.maminova@gmail.com" },
+                                new CustomFieldValueDTO { @enum = 114621, value = "mila.komendantova@gmail.com" }
+                            },
+                            is_system = true
+                        },
+                        new CustomFieldDTO{
+                            id = 54667,
+                            name = "Телефон",
+                            code = "PHONE",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { @enum = 114611, value = "89854507947" }
+                            },
+                            is_system = true
+                        },
+                        new CustomFieldDTO{
+                            id = 548465,
+                            name = "Откуда узнал о FPA",
+                            values = new List<CustomFieldValueDTO>{
+                                new CustomFieldValueDTO { @enum = 1143917, value = "Интернет" }
+                            },
+                            is_system = false
                         }
+                    }
                 }
             };
 

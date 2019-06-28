@@ -12,7 +12,7 @@ namespace LibraryAmoCRM.DTO
         public uint updated_at { get; set; }
         public int account_id { get; set; }
         public int group_id { get; set; }
-        public bool is_editable { get; set; }
+        public bool? is_editable { get; set; }
         public int element_id { get; set; }
         public int element_type { get; set; }
         public string attachment { get; set; }

@@ -6,7 +6,7 @@ namespace LibraryAmoCRM.Interfaces
     public interface ICustomField : ISimpleObject
     {
         string Code { get; set; }
-        bool IsSystem { get; set; }
+        bool? IsSystem { get; set; }
         IEnumerable<ICustomFieldValue> Values { get; set; }
     }
 

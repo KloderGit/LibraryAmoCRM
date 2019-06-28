@@ -7,7 +7,7 @@ namespace LibraryAmoCRM.Models
 {
     public class Task : ITask
     {
-        public bool IsCompleted { get; set; }
+        public bool? IsCompleted { get; set; }
         public DateTime CompleteTillAt { get; set; }
         public IToDoObject Result { get; set; }
         public int TaskType { get; set; }

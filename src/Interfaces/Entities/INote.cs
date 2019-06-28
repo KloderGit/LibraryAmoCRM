@@ -4,7 +4,7 @@ namespace LibraryAmoCRM.Interfaces
 {
     public interface INote : IEntity, IToDoObject, IBelong
     {
-        bool IsEditable { get; set; }
+        bool? IsEditable { get; set; }
 
         string Attachment { get; set; }
 

@@ -9,7 +9,7 @@ namespace LibraryAmoCRM.Models
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public bool IsEditable { get; set; }
+        public bool? IsEditable { get; set; }
         public string Attachment { get; set; }
         public int NoteType { get; set; }
         public INoteParam Params { get; set; }

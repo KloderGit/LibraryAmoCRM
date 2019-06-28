@@ -12,7 +12,7 @@ namespace LibraryAmoCRM.Models
         public int MainContactId { get; set; }
         public DateTime NearestTaskAt { get; set; }
         public DateTime ClosedAt { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
         public int Status { get; set; }
         public int Price { get; set; }
         public int LossReason { get; set; }

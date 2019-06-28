@@ -24,130 +24,305 @@ namespace LibraryAmoCRMTests
             new CompanyMapping();
             new LeadMapping();
             new NoteMapping();
+            new TaskMapping();
         }
 
         [TestMethod]
-        public void ContactToDtoTest()
+        public void FullContactToDtoTest()
         {
-            var contactSource = ContactsArray.GetContacts().First();
-            var contactToFullDto = contactSource.Adapt<ContactDTO>();
-            var DtoToContact = contactToFullDto.Adapt<Contact>();
+            var source = ContactsArray.Get().First();
 
-            var v1 = JsonConvert.SerializeObject(contactSource, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
-            var v2 = JsonConvert.SerializeObject(DtoToContact, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var firstValue = source.Adapt<Contact>();
+            var dto = firstValue.Adapt<ContactDTO>();
+            var secondValue = dto.Adapt<Contact>();
 
-            Assert.AreEqual(v1, v2);
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.Id, 0);
+            Assert.AreEqual(firstJson, secondjson);
         }
 
         [TestMethod]
-        public void DtoToContactTest()
+        public void FullDtoToContactTest()
         {
-            var contactSource = ContactsArray.GetContacts().First();
+            var firstValue = ContactsArray.Get().First();
+            var entity = firstValue.Adapt<Contact>();
+            var secondValue = entity.Adapt<ContactDTO>();
 
-            var firstDto = contactSource.Adapt<ContactDTO>();
-            var toContact = firstDto.Adapt<Contact>();
-            var secondDto = toContact.Adapt<ContactDTO>();
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
 
-            var firstDtoToJsonString = JsonConvert.SerializeObject(firstDto, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
-            var secondDtoToJsonString = JsonConvert.SerializeObject(secondDto, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            Assert.AreNotEqual(secondValue.id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
 
-            Assert.AreEqual(firstDtoToJsonString, secondDtoToJsonString);
+        [TestMethod]
+        public void MinContactToDtoTest()
+        {
+            var firstValue = new Contact { Id = 123 };
+            var dto = firstValue.Adapt<ContactDTO>();
+            var secondValue = dto.Adapt<Contact>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.Id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+        [TestMethod]
+        public void MinDtoToContactTest()
+        {
+            var firstValue = new ContactDTO { id = 123 };
+            var entity = firstValue.Adapt<Contact>();
+            var secondValue = entity.Adapt<ContactDTO>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.id, 0);
+            Assert.AreEqual(firstJson, secondjson);
         }
 
 
-        [TestMethod]
-        public void CompanyToDtoTest()
-        {
-            var companySource = CompaniesArray.GetCompaniesDto().First();
 
-            var firstValue = companySource.Adapt<Company>();
+        [TestMethod]
+        public void FullCompanyToDtoTest()
+        {
+            var source = CompaniesArray.GetCompaniesDto().First();
+
+            var firstValue = source.Adapt<Company>();
             var dto = firstValue.Adapt<CompanyDTO>();
             var secondValue = dto.Adapt<Company>();
 
             var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
             var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
 
+            Assert.AreNotEqual(secondValue.Id, 0);
             Assert.AreEqual(firstJson, secondjson);
         }
 
         [TestMethod]
-        public void DtoToCompanyTest()
+        public void FullDtoToCompanyTest()
         {
             var firstValue = CompaniesArray.GetCompaniesDto().First();
-            var company = firstValue.Adapt<Company>();
-            var secondValue = company.Adapt<CompanyDTO>();
+            var entity = firstValue.Adapt<Company>();
+            var secondValue = entity.Adapt<CompanyDTO>();
 
             var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
             var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
 
+            Assert.AreNotEqual(secondValue.id, 0);
             Assert.AreEqual(firstJson, secondjson);
         }
 
-
-
-
         [TestMethod]
-        public void LeadToDtoTest()
+        public void MinCompanyToDtoTest()
         {
-            var firstDto = LeadArray.GetLeadDTO().First();
+            var firstValue = new Company { Id = 123 };
+            var dto = firstValue.Adapt<CompanyDTO>();
+            var secondValue = dto.Adapt<Company>();
 
-            var lead = firstDto.Adapt<Lead>();
-            var toDto = lead.Adapt<LeadDTO>();
-            var lead2 = toDto.Adapt<Lead>();
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
 
-            var firstJson = JsonConvert.SerializeObject(lead, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
-            var secondjson = JsonConvert.SerializeObject(lead2, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
-
+            Assert.AreNotEqual(secondValue.Id, 0);
             Assert.AreEqual(firstJson, secondjson);
-
-
         }
 
         [TestMethod]
-        public void DtoToLeadTest()
+        public void MinDtoToCompanyTest()
         {
-            var firstDto = LeadArray.GetLeadDTO().First();
-            var lead = firstDto.Adapt<Lead>();
-            var secondDto = lead.Adapt<LeadDTO>();
+            var firstValue = new CompanyDTO { id = 123 };
+            var entity = firstValue.Adapt<Company>();
+            var secondValue = entity.Adapt<CompanyDTO>();
 
-            var firstJson = JsonConvert.SerializeObject(firstDto, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
-            var secondjson = JsonConvert.SerializeObject(secondDto, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
 
+            Assert.AreNotEqual(secondValue.id, 0);
             Assert.AreEqual(firstJson, secondjson);
         }
 
 
 
         [TestMethod]
-        public void NoteToDtoTest()
+        public void FullLeadToDtoTest()
         {
-            var firstDto = NoteArray.GetNoteDTOs().First();
+            var source = LeadArray.GetLeadDTO().First();
 
-            var note = firstDto.Adapt<Note>();
-            var toDto = note.Adapt<NoteDTO>();
-            var note2 = toDto.Adapt<Note>();
+            var firstValue = source.Adapt<Lead>();
+            var dto = firstValue.Adapt<LeadDTO>();
+            var secondValue = dto.Adapt<Lead>();
 
-            var firstJson = JsonConvert.SerializeObject(note, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
-            var secondjson = JsonConvert.SerializeObject(note2, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
 
+            Assert.AreNotEqual(secondValue.Id, 0);
             Assert.AreEqual(firstJson, secondjson);
         }
 
         [TestMethod]
-        public void DtoToNoteTest()
+        public void FullDtoToLeadTest()
         {
-            var firstDto = NoteArray.GetNoteDTOs().First();
-            var note = firstDto.Adapt<Note>();
-            var toDto = note.Adapt<NoteDTO>();
+            var firstValue = LeadArray.GetLeadDTO().First();
+            var entity = firstValue.Adapt<Lead>();
+            var secondValue = entity.Adapt<LeadDTO>();
 
-            var firstJson = JsonConvert.SerializeObject(firstDto, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
-            var secondjson = JsonConvert.SerializeObject(toDto, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
 
+            Assert.AreNotEqual(secondValue.id, 0);
             Assert.AreEqual(firstJson, secondjson);
+        }
 
-            var dd = new Note() { Id = 3, CreatedAt = new DateTime(2010, 1, 15) };
-            var tt = dd.Adapt<NoteDTO>();
-            var dr = tt.Adapt<Note>();
+        [TestMethod]
+        public void MinLeadToDtoTest()
+        {
+            var firstValue = new Lead { Id = 123 };
+            var dto = firstValue.Adapt<LeadDTO>();
+            var secondValue = dto.Adapt<Lead>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.Id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+        [TestMethod]
+        public void MinDtoToLeadTest()
+        {
+            var firstValue = new LeadDTO { id = 123 };
+            var entity = firstValue.Adapt<Lead>();
+            var secondValue = entity.Adapt<LeadDTO>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+
+
+        [TestMethod]
+        public void FullNoteToDtoTest()
+        {
+            var source = NoteArray.GetNoteDTOs().First();
+
+            var firstValue = source.Adapt<Note>();
+            var dto = firstValue.Adapt<NoteDTO>();
+            var secondValue = dto.Adapt<Note>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.Id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+        [TestMethod]
+        public void FullDtoToNoteTest()
+        {
+            var firstValue = NoteArray.GetNoteDTOs().First();
+            var entity = firstValue.Adapt<Note>();
+            var secondValue = entity.Adapt<NoteDTO>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+        [TestMethod]
+        public void MinNoteToDtoTest()
+        {
+            var firstValue = new Note { Id = 123 };
+            var dto = firstValue.Adapt<NoteDTO>();
+            var secondValue = dto.Adapt<Note>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.Id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+        [TestMethod]
+        public void MinDtoToNoteTest()
+        {
+            var firstValue = new NoteDTO { id = 123 };
+            var entity = firstValue.Adapt<Note>();
+            var secondValue = entity.Adapt<NoteDTO>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+
+
+        [TestMethod]
+        public void FullTaskToDtoTest()
+        {
+            var source = TaskArray.GetTaskDTOs().First();
+
+            var firstValue = source.Adapt<Task>();
+            var dto = firstValue.Adapt<TaskDTO>();
+            var secondValue = dto.Adapt<Task>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.Id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+        [TestMethod]
+        public void FullDtoToTaskTest()
+        {
+            var firstValue = TaskArray.GetTaskDTOs().First();
+            var entity = firstValue.Adapt<Task>();
+            var secondValue = entity.Adapt<TaskDTO>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+        [TestMethod]
+        public void MinTaskToDtoTest()
+        {
+            var firstValue = new Task { Id = 123 };
+            var dto = firstValue.Adapt<TaskDTO>();
+            var secondValue = dto.Adapt<Task>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.Id, 0);
+            Assert.AreEqual(firstJson, secondjson);
+        }
+
+        [TestMethod]
+        public void MinDtoToTaskTest()
+        {
+            var firstValue = new TaskDTO { id = 123 };
+            var entity = firstValue.Adapt<Task>();
+            var secondValue = entity.Adapt<TaskDTO>();
+
+            var firstJson = JsonConvert.SerializeObject(firstValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+            var secondjson = JsonConvert.SerializeObject(secondValue, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+            Assert.AreNotEqual(secondValue.id, 0);
+            Assert.AreEqual(firstJson, secondjson);
         }
     }
 
