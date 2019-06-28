@@ -1,4 +1,6 @@
-﻿using LibraryAmoCRM.Interfaces;
+﻿using LibraryAmoCRM.Converters;
+using LibraryAmoCRM.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;

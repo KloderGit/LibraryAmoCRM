@@ -13,22 +13,22 @@ namespace LibraryAmoCRM.Mappings
         public CommonMapping()
         {
             TypeAdapterConfig<ISimpleObject, EntityDTO>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.id, src => src.Id)
                 .Map(dest => dest.name, src => src.Name);
 
             TypeAdapterConfig<EntityDTO, ISimpleObject>
-                .ForType()
+                .NewConfig()
                 .MapWith(src => src.Adapt<SimpleObject>());
 
             TypeAdapterConfig<EntityDTO, SimpleObject>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.Id, src => src.id)
                 .Map(dest => dest.Name, src => src.name);
 
 
             TypeAdapterConfig<ICustomField, CustomFieldDTO>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.id, src => src.Id)
                 .Map(dest => dest.name, src => src.Name)
                 .Map(dest => dest.code, src => src.Code)
@@ -36,11 +36,11 @@ namespace LibraryAmoCRM.Mappings
                 .Map(dest => dest.values, src => src.Values);
 
             TypeAdapterConfig<CustomFieldDTO, ICustomField>
-                .ForType()
+                .NewConfig()
                 .MapWith(src => src.Adapt<CustomField>());
 
             TypeAdapterConfig<CustomFieldDTO, CustomField>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.Id, src => src.id)
                 .Map(dest => dest.Name, src => src.name)
                 .Map(dest => dest.Code, src => src.code)
@@ -50,16 +50,16 @@ namespace LibraryAmoCRM.Mappings
 
 
             TypeAdapterConfig<ICustomFieldValue, CustomFieldValueDTO>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.@enum, src => src.Enum)
                 .Map(dest => dest.value, src => src.Value);
 
             TypeAdapterConfig<CustomFieldValueDTO, ICustomFieldValue>
-                .ForType()
+                .NewConfig()
                 .MapWith(src => src.Adapt<CustomFieldValue>());
 
             TypeAdapterConfig<CustomFieldValueDTO, CustomFieldValue>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.Enum, src => src.@enum)
                 .Map(dest => dest.Value, src => src.value);
         }

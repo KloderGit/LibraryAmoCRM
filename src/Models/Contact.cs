@@ -22,7 +22,5 @@ namespace LibraryAmoCRM.Models
         public IEnumerable<int> Customers { get; set; } = new List<int>();
         public IEnumerable<ISimpleObject> Tags { get; set; } = new List<ISimpleObject>();
         public IEnumerable<ICustomField> CustomFields { get; set; } = new List<ICustomField>();
-        public ISimpleObject Company { get; set; }
-        public Type DtoType => typeof(ContactDTO);
-    }
+        public ISimpleObject Company { get; set; }    }
 }

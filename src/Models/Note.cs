@@ -22,4 +22,22 @@ namespace LibraryAmoCRM.Models
         public int ElementId { get; set; }
         public int ElementType { get; set; }
     }
+
+    public class NoteParam : INoteParam
+    {
+        public string Text { get; set; }
+        public string Service { get; set; }
+
+        public string Sender { get; set; }
+        public string Html { get; set; }
+
+        public string Uniq { get; set; }
+        public string Link { get; set; }
+        public string Phone { get; set; }
+        public int Duration { get; set; }
+        public string From { get; set; }
+        public string Src { get; set; }
+        public string CallStatus { get; set; }
+        public string CallResult { get; set; }
+    }
 }

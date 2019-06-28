@@ -13,7 +13,7 @@ namespace LibraryAmoCRM.Mappings
         public TaskMapping()
         {
             TypeAdapterConfig<ITask, TaskDTO>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.id, src => src.Id)
                 .Map(dest => dest.text, src => src.Text)
                 .Map(dest => dest.is_completed, src => src.IsCompleted)
@@ -31,7 +31,7 @@ namespace LibraryAmoCRM.Mappings
                 .Map(dest => dest.result, src => src.Result);
 
             TypeAdapterConfig<IToDoObject, IntentDTO>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.id, src => src.Id)
                 .Map(dest => dest.text, src => src.Text);
         }

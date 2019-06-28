@@ -14,7 +14,7 @@ namespace LibraryAmoCRM.Mappings
         public ContactMapping()
         {
             TypeAdapterConfig<IContact, ContactDTO>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.id, src => src.Id)
                 .Map(dest => dest.name, src => src.Name)
                 .Map(dest => dest.responsible_user_id, src => src.ResponsibleUserId)
@@ -32,7 +32,7 @@ namespace LibraryAmoCRM.Mappings
                 .Map(dest => dest.company, src => src.Company);
 
             TypeAdapterConfig<ContactDTO, Contact>
-                .ForType()
+                .NewConfig()
                 .Map(dest => dest.Id, src => src.id)
                 .Map(dest => dest.Name, src => src.name)
                 .Map(dest => dest.ResponsibleUserId, src => src.responsible_user_id)

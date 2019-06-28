@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LibraryAmoCRM.Converters;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace LibraryAmoCRM.DTO
 {
@@ -12,6 +14,6 @@ namespace LibraryAmoCRM.DTO
     internal class CustomFieldValueDTO
     {
         public string value { get; set; }
-        public string @enum { get; set; }
+        public int @enum { get; set; } = default;
     }
 }

@@ -24,5 +24,17 @@ namespace LibraryAmoCRM.DTO
     {
         public string text { get; set; }
         public string service { get; set; }
+
+        public string sender { get; set; }
+        public string html { get; set; }
+
+        public string uniq { get; set; }
+        public string link { get; set; }
+        public string phone { get; set; }
+        public int duration { get; set; }
+        public string from { get; set; }
+        public string src { get; set; }
+        public string call_status { get; set; }
+        public string call_result { get; set; }
     }
 }
