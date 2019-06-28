@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageId>amo.lib.oldversion</PackageId>
+    <Authors>KloderGit</Authors>
+    <PackageProjectUrl>https://github.com/KloderGit/LibraryAmoCRM</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KloderGit/LibraryAmoCRM</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

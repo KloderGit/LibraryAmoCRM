@@ -34,12 +34,14 @@ namespace LibraryAmoCRM.Implements
 
         public IRepository<T> Get() 
         {
+            connection.Auth(null);
             Execute = GetItemsMetod;
             return this;
         }
 
         public async Task<IEnumerable<T>> Add(IEnumerable<T> items)
         {
+            connection.Auth(null);
             var updatedObjects = items;
             updatedObjects.ToList().ForEach( (e) => e.UpdatedAt = DateTime.Now );
 
@@ -50,6 +52,7 @@ namespace LibraryAmoCRM.Implements
 
         public async Task<T> Add(T item)
         {
+            connection.Auth(null);
             var updatedObject = item;
             updatedObject.UpdatedAt = DateTime.Now;
 
@@ -124,6 +127,8 @@ namespace LibraryAmoCRM.Implements
         }
 
         public async Task Update(T item) {
+
+            connection.Auth(null);
 
             if (item == null) throw new ArgumentNullException();
 
