@@ -32,10 +32,12 @@ namespace LibraryAmoCRM.Infarstructure.JsonConverters
 
             long ticks = (long)reader.Value;
 
+            if (ticks <= 0) return DateTime.MinValue;
+
             var startDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             var result = startDate.AddSeconds(ticks).ToLocalTime();
 
-            return ticks == 0 ? DateTime.MinValue : result;
+            return result;
         }
 
         public override bool CanConvert(Type objectType)

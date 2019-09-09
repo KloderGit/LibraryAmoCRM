@@ -36,6 +36,7 @@ namespace LibraryAmoCRM
 
             assamblyName = GetType().Assembly.GetName().Name;
 
+            connection.Auth(null);
             Account = Fields.GetAccount().Result;
         }
 
@@ -46,7 +47,8 @@ namespace LibraryAmoCRM
 
             this.connection = connection;
 
-            Account = Fields.GetAccount().Result;
+            connection.Auth(null);
+            Account = Fields.GetAccount().GetAwaiter().GetResult();
         }
 
 

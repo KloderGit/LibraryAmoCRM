@@ -33,9 +33,9 @@ namespace LibraryAmoCRM.Implements
                 var request = await clientt.GetAsync(endpoint + @params);
                 request.EnsureSuccessStatusCode();
 
-                var response = request.Content.ReadAsAsync<Account>(new MediaTypesFormatters().GetHALFormatter());
+                var response = await request.Content.ReadAsAsync<Account>(new MediaTypesFormatters().GetHALFormatter());
 
-                return response.Result;
+                return response;
             }
             catch (HttpRequestException ex)
             {
